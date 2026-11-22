@@ -1,6 +1,6 @@
 """Product, listing and evaluation-request models, built from the JSON the agent writes.
 
-The evaluation request ("bundle") format is documented in skills/evaluate.md and docs/DATA_FORMAT.md.
+The evaluation request format is documented in skills/evaluate.md.
 """
 from __future__ import annotations
 
@@ -64,6 +64,7 @@ class Product:
     claims: list = field(default_factory=list)       # list[Claim]
     reviews: list = field(default_factory=list)      # list[Review]
     review_source: str | None = None
+    review_variant_match: str = "exact"
     safety: list = field(default_factory=list)       # list[SafetyRecord]
     criteria: list = field(default_factory=list)     # agent-rated criteria, see scoring.dimensions
     recalls: list = field(default_factory=list)      # [{"id": "...", "status": "active|closed", "source": "s9"}]
@@ -152,6 +153,9 @@ def parse_request(data: dict) -> Request:
             raise ValidationError(f"Product {pid}: reviews need a 'source' (where they were collected).")
         if rsrc is not None and rsrc not in sources:
             raise ValidationError(f"Product {pid}: review source '{rsrc}' isn't in the sources list.")
+        rmatch = str(rv.get("variant_match") or "exact") if isinstance(rv, dict) else "exact"
+        if rmatch not in ("exact", "other_variant", "product_family", "brand"):
+            raise ValidationError(f"Product {pid}: reviews variant_match must be exact, other_variant, product_family or brand.")
         reviews = []
         for k, r in enumerate(items, 1):
             try:
@@ -176,7 +180,7 @@ def parse_request(data: dict) -> Request:
         products.append(Product(id=pid, name=name, brand=str(p.get("brand") or ""),
                                 model_number=str(p.get("model_number") or ""), gtin=gtin,
                                 variant=dict(p.get("variant") or {}), listing=listing, claims=claims,
-                                reviews=reviews, review_source=rsrc, safety=safety,
+                                reviews=reviews, review_source=rsrc, review_variant_match=rmatch, safety=safety,
                                 criteria=list(p.get("criteria") or []), recalls=list(p.get("recalls") or [])))
     if not products:
         raise ValidationError("The request has no products.")

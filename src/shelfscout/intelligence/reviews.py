@@ -55,30 +55,30 @@ def authenticity(reviews: list, duplicates: int) -> dict:
     ratings = [r.rating for r in reviews]
     five = ratings.count(5) / len(ratings) * 100
     if five >= 85 and n >= 10:
-        signals.append(f"{five:.0f}% of unique reviews are 5-star.")
+        signals.append(f"{five:.0f}% of unique reviews are 5-star")
         points += 2
     if duplicates:
-        signals.append(f"{duplicates} review(s) repeat another review's exact text (counted once).")
+        signals.append(f"{duplicates} review(s) repeat another review's exact text, counted once")
         points += 2 if duplicates >= 3 else 1
     short = sum(1 for r in reviews if len(r.text.split()) < 6 or GENERIC.match(r.text or "")) / len(reviews) * 100
     if short >= 40 and n >= 10:
-        signals.append(f"{short:.0f}% are very short or generic.")
+        signals.append(f"{short:.0f}% are very short or generic")
         points += 1
     flagged = [r.verified for r in reviews if r.verified is not None]
     if flagged and flagged.count(False) / len(flagged) >= 0.3:
-        signals.append(f"{flagged.count(False) / len(flagged) * 100:.0f}% aren't marked as verified purchases.")
+        signals.append(f"{flagged.count(False) / len(flagged) * 100:.0f}% aren't marked as verified purchases")
         points += 1
     dates = sorted(r.date for r in reviews if r.date)
     if len(dates) >= 10:
         best = max(sum(1 for d2 in dates if 0 <= (d2 - d).days <= 7) for d in dates)
         if best / len(dates) >= 0.4:
-            signals.append(f"{best} of {len(dates)} dated reviews arrived within one week.")
+            signals.append(f"{best} of {len(dates)} dated reviews arrived within one week")
             points += 2
     sh = [_shingles(_norm(r.text)) for r in reviews if len(r.text.split()) >= 6]
     near = sum(1 for i in range(len(sh)) for j in range(i + 1, len(sh))
                if sh[i] and sh[j] and len(sh[i] & sh[j]) / len(sh[i] | sh[j]) >= 0.5)
     if near:
-        signals.append(f"{near} pair(s) of reviews share much of their wording.")
+        signals.append(f"{near} pair(s) of reviews share much of their wording")
         points += 2 if near >= 2 else 1
     level = "low" if points <= 1 else "medium" if points <= 3 else "high"
     return {"level": level, "signals": signals, "points": points}
@@ -108,7 +108,8 @@ def analyse(product) -> dict:
                 entry["negative"] += 1
                 entry["severity_total"] += sev
                 if cat == "safety" and sev >= 4:
-                    summary["safety_complaints"].append(str(a.get("quote") or name))
+                    summary["safety_complaints"].append({"quote": str(a.get("quote") or name), "severity": sev})
+                entry["max_severity"] = max(entry.get("max_severity", 0), sev)
             elif sent == "positive":
                 entry["positive"] += 1
             if a.get("quote") and len(entry["quotes"]) < 3:
@@ -129,7 +130,7 @@ def _review_confidence(product, ctx, n: int, level: str) -> float:
     if src is None:
         return 0.0
     pseudo = Claim(id="reviews", claim_type="reviews", status=Status.CUSTOMER_REPORTED, value=n,
-                   source_id=src.id, observed_at=None)
+                   source_id=src.id, observed_at=None, variant_match=product.review_variant_match)
     base = claim_confidence(pseudo, src, ctx.as_of, ctx.coeffs)["confidence"]
     factor = {"low": 1.0, "medium": 0.75, "high": 0.5}.get(level, 0.8)
     return base * sample_factor(n) * factor
@@ -161,6 +162,12 @@ def criteria(product, ctx) -> list:
     out.append(Criterion("reliability", "reported defects and failures", 100 * max(0.0, 1 - 2 * fails / n), conf, 1.0, (),
                          f"{fails} of {n} unique reviews report a defect or failure (this is a complaint rate, "
                          "not a population failure rate)", "reviews"))
+    wear = sum(1 for r in unique_reviews(product.reviews)[0]
+               if any(str(a.get("category")).lower() in (FAILURE | {"durability"}) and str(a.get("sentiment")) == "negative"
+                      for a in r.aspects))
+    out.append(Criterion("durability", "reported wear and early failures", 100 * max(0.0, 1 - 2 * wear / n), conf * 0.8, 1.0, (),
+                         f"{wear} of {n} unique reviews report wear, a defect or a failure (owner reports, not a lab test)",
+                         "reviews"))
     lt = s["long_term"]
     if lt["reports"] >= 3:
         out.append(Criterion("durability", "long-term owner reports", lt["positive"] / lt["reports"] * 100, conf * 0.9, 1.0, (),
@@ -176,6 +183,7 @@ def criteria(product, ctx) -> list:
             out.append(Criterion(dim, label, pos / (pos + neg) * 100, conf * 0.8, 0.5, (),
                                  f"{pos} positive vs {neg} negative mentions", "reviews"))
     if s["safety_complaints"]:
-        ctx.note(product.id, f"{len(s['safety_complaints'])} serious safety complaint(s) in reviews need checking: "
-                             + "; ".join(s["safety_complaints"][:3]))
+        worst = max(c["severity"] for c in s["safety_complaints"])
+        ctx.note(product.id, f"{len(s['safety_complaints'])} serious safety complaint(s) in reviews (worst severity {worst}) "
+                             "need checking: " + "; ".join(c["quote"] for c in s["safety_complaints"][:3]))
     return out

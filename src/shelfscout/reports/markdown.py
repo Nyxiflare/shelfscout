@@ -4,7 +4,7 @@ from __future__ import annotations
 from ..profiles.loader import DIMENSION_LABELS
 
 STATUS_TEXT = {
-    "ELIGIBLE": "eligible", "PROVISIONAL": "provisional (limited evidence)",
+    "ELIGIBLE": "eligible", "PROVISIONAL": "provisional",
     "INSUFFICIENT_EVIDENCE": "insufficient evidence to rank", "SAFETY_HOLD": "safety hold", "EXCLUDED": "excluded",
 }
 
@@ -25,8 +25,10 @@ def render(result: dict) -> str:
     rec = rk.get("recommended")
     if rec:
         e = ev[rec]
-        lines.append(f"**Recommended:** {e['name']}, score {e['overall_score']} "
-                     f"({STATUS_TEXT[e['eligibility']]}), {e['price'] or 'price not recorded'}")
+        personal = f", {e['personal_score']} on your priorities" if e.get("personal_score") is not None else ""
+        lines.append(f"**Recommended:** {e['name']}, score {e['overall_score']}{personal} "
+                     f"({STATUS_TEXT[e['eligibility']]}), {e['price'] or 'price not recorded'}. "
+                     f"Ranked by {rk.get('recommended_by', 'the category weights')}.")
         if e["eligibility"] != "ELIGIBLE":
             lines.append(f"Why it isn't fully eligible: {'; '.join(e['eligibility_reasons'])}.")
     else:
@@ -41,12 +43,13 @@ def render(result: dict) -> str:
     if rk.get("over_or_under_budget"):
         lines.append("")
         lines.append("Outside your budget (not ranked in it): " + ", ".join(ev[p]["name"] for p in rk["over_or_under_budget"]))
-    lines += ["", "## Comparison", "", "| Rank | Product | Price | Score | Confidence | Evidence coverage | Status |",
-              "|---|---|---|---|---|---|---|"]
-    for i, pid in enumerate(rk["overall"], 1):
+    lines += ["", "## Comparison", "", "| Rank | Product | Price | Score | Your priorities | Confidence | Evidence coverage | Status |",
+              "|---|---|---|---|---|---|---|---|"]
+    for i, pid in enumerate(rk.get("personal") or rk["overall"], 1):
         e = ev[pid]
         lines.append(f"| {i} | {_cell(e['name'])} | {_cell(e['price'])} | {_cell(e['overall_score'])} | "
-                     f"{_cell(e['confidence'])} | {e['coverage'] * 100:.0f}% | {STATUS_TEXT[e['eligibility']]} |")
+                     f"{_cell(e.get('personal_score'))} | {_cell(e['confidence'])} | {e['coverage'] * 100:.0f}% | "
+                     f"{STATUS_TEXT[e['eligibility']]} |")
     dims = [d for d in result["weights"] if result["weights"][d] > 0]
     lines += ["", "### By dimension (score / confidence)", "",
               "| Dimension | Weight | " + " | ".join(_cell(ev[p]["name"]) for p in rk["overall"]) + " |",
@@ -70,7 +73,13 @@ def render(result: dict) -> str:
                 lines.append(f"  - {c['name']}: {c['score']:.0f} [{c['method']}] {c['basis']}"
                              + (f" (evidence: {', '.join(c['claims'])})" if c["claims"] else ""))
         if e["missing_dimensions"]:
-            lines.append("- **Unknown:** " + ", ".join(DIMENSION_LABELS[d] for d in e["missing_dimensions"]))
+            lines.append("- **Unknown dimensions:** " + ", ".join(DIMENSION_LABELS[d] for d in e["missing_dimensions"]))
+        if e.get("unknown_claims"):
+            lines.append("- **Looked for but not established:** " + ", ".join(e["unknown_claims"]))
+        if e.get("limitations"):
+            lines.append("- **Limitations of the evidence:** " + " | ".join(e["limitations"]))
+        if e.get("unscored_claims"):
+            lines.append("- Recorded but not used in scoring: " + ", ".join(e["unscored_claims"]))
         s = e.get("safety") or {}
         unresolved = s.get("unresolved_mandatory") or []
         if unresolved:
@@ -80,7 +89,8 @@ def render(result: dict) -> str:
             top = sorted(rv["aspects"].items(), key=lambda kv: -kv[1]["negative"])[:4]
             if top and top[0][1]["negative"]:
                 lines.append(f"- **Top complaints** (share of {rv['analysed']} unique reviews): " +
-                             "; ".join(f"{k} {v['negative_share_of_reviews']}%" for k, v in top if v["negative"]))
+                             "; ".join(f"{k} {v['negative_share_of_reviews']}% (worst severity {v.get('max_severity', 0)}/5)"
+                                       for k, v in top if v["negative"]))
             lines.append(f"- Review warning signs: {rv['authenticity']['level']}" +
                          (f" ({'; '.join(rv['authenticity']['signals'])})" if rv["authenticity"]["signals"] else ""))
         for n in e["notes"]:

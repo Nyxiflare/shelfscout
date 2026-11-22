@@ -183,13 +183,35 @@ class Reviews(unittest.TestCase):
         e = evaluate(d)["evaluations"][0]
         self.assertNotIn("customer_experience", e["dimensions"])
 
-    def test_safety_complaints_make_provisional(self):
+    def _with_complaint(self, severity):
         items = [{"rating": 4, "text": f"fine chair {i}"} for i in range(6)]
         items.append({"rating": 1, "text": "Chair tipped backwards and I fell", "aspects": [
-            {"aspect": "tipping", "category": "safety", "sentiment": "negative", "severity": 5, "quote": "tipped backwards"}]})
-        d = minimal(reviews={"source": "rv", "items": items})
-        e = evaluate(d)["evaluations"][0]
-        self.assertTrue(any("safety complaint" in r for r in e["eligibility_reasons"]))
+            {"aspect": "tipping", "category": "safety", "sentiment": "negative", "severity": severity, "quote": "tipped backwards"}]})
+        return evaluate(minimal(reviews={"source": "rv", "items": items}))["evaluations"][0]
+
+    def test_dangerous_incident_puts_product_on_safety_hold(self):
+        e = self._with_complaint(5)
+        self.assertEqual(e["eligibility"], "SAFETY_HOLD")
+        self.assertTrue(any("dangerous" in r for r in e["eligibility_reasons"]))
+
+    def test_serious_complaint_makes_provisional_at_least(self):
+        e = self._with_complaint(4)
+        self.assertTrue(any("safety complaints" in r for r in e["eligibility_reasons"]))
+        self.assertNotEqual(e["eligibility"], "ELIGIBLE")
+
+    def test_reported_wear_counts_against_durability(self):
+        items = [{"rating": 4, "text": f"good {i}"} for i in range(8)]
+        items += [{"rating": 2, "text": f"armrest cracked {i}", "aspects": [
+            {"aspect": "armrest", "category": "defect", "sentiment": "negative", "severity": 3}]} for i in range(2)]
+        e = evaluate(minimal(reviews={"source": "rv", "items": items}))["evaluations"][0]
+        wear = next(c for c in e["dimensions"]["durability"]["criteria"] if c["name"] == "reported wear and early failures")
+        self.assertAlmostEqual(wear["score"], 60.0)
+
+    def test_other_variant_reviews_less_confident(self):
+        items = [{"rating": 4, "text": f"good chair {i}"} for i in range(12)]
+        a = evaluate(minimal(reviews={"source": "rv", "items": items}))["evaluations"][0]
+        b = evaluate(minimal(reviews={"source": "rv", "variant_match": "other_variant", "items": items}))["evaluations"][0]
+        self.assertLess(b["dimensions"]["customer_experience"]["confidence"], a["dimensions"]["customer_experience"]["confidence"])
 
 
 class Materials(unittest.TestCase):
@@ -222,6 +244,43 @@ class Ergonomics(unittest.TestCase):
         e = by_id(evaluate(d))["ergoone"]
         fit = next(c for c in e["dimensions"]["ergonomics"]["criteria"] if c["name"] == "seat height fits you")
         self.assertLess(fit["score"], 100)
+
+
+class TransparencyFixes(unittest.TestCase):
+    def test_partial_seat_depth_fit_is_not_full_marks(self):
+        d = example("office-chair")
+        ergo = next(x for x in d["products"] if x["id"] == "ergoone")
+        for c in ergo["claims"]:
+            if c["claim_type"] == "ergonomics.seat_depth":
+                c["value"] = {"min": 430, "max": 490}
+        e = by_id(evaluate(d))["ergoone"]
+        fit = next(c for c in e["dimensions"]["ergonomics"]["criteria"] if c["name"] == "seat depth fits you")
+        self.assertLess(fit["score"], 90)
+        self.assertIn("shallowest", fit["basis"])
+
+    def test_priorities_drive_the_recommendation(self):
+        r = evaluate(example("smartphone"))
+        self.assertEqual(r["rankings"]["recommended_by"], "the category weights")
+        d = example("office-chair")
+        r = evaluate(d)
+        self.assertEqual(r["rankings"]["recommended_by"], "your priorities")
+        self.assertIn("on your priorities", markdown.render(r))
+
+    def test_unknowns_limitations_and_unscored_claims_reach_the_report(self):
+        d = example("office-chair")
+        ergo = next(x for x in d["products"] if x["id"] == "ergoone")
+        ergo["claims"].append({"id": "x9", "claim_type": "durability.design_life_years", "status": "MANUFACTURER_REPORTED",
+                               "value": 10, "source": "ergo-site"})
+        r = evaluate(d)
+        md = markdown.render(r)
+        self.assertIn("Looked for but not established:** material.frame_grade", md)
+        self.assertIn("alloy grade not disclosed", md)
+        self.assertIn("durability.design_life_years", md)
+        self.assertIn("material.frame_grade", html_report.render(r))
+
+    def test_no_requirements_on_record_is_said(self):
+        e = by_id(evaluate(example("office-chair")))["ergoone"]
+        self.assertTrue(any("No mandatory safety requirements are on record" in n for n in e["notes"]))
 
 
 class Identity(unittest.TestCase):

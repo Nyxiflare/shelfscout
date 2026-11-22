@@ -122,7 +122,8 @@ def criteria(product, ctx) -> list:
     conf = min(ctx.conf(claim), REFERENCE_CONFIDENCE if not measured else ctx.conf(claim))
     if res["grade_unknown"]:
         conf *= GRADE_UNKNOWN_FACTOR
-    basis = (f"{material['name']} as a {app['label']}: " + "; ".join(res["used"])
+    article = "an" if app["label"][:1].lower() in "aeiou" else "a"
+    basis = (f"{material['name']} as {article} {app['label']}: " + "; ".join(res["used"])
              + (f". Grade not stated, so the plausible score spans {res['spread'][0]}-{res['spread'][1]}." if res["grade_unknown"] and res["spread"] else ".")
              + " Typical catalogue values, not measurements of this product.")
     return [Criterion("materials_build", "material suitability", res["score"], conf, 1.0, (claim.id,), basis,

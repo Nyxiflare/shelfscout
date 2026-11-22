@@ -78,8 +78,12 @@ def _eligibility(product, dims: dict, coverage: float, mean_conf, profile: dict,
         for name in safety_res["unresolved_mandatory"]:
             worse(special.get(name, hold), f"mandatory requirement not evidenced: {name}"
                   + (" (rarely verifiable publicly)" if name in special else ""))
-    if any("safety complaint" in n for n in notes):
-        worse("PROVISIONAL", "serious safety complaints in reviews need checking")
+    severe = [n for n in notes if "safety complaint" in n]
+    if severe:
+        if any("worst severity 5" in n for n in severe):
+            worse("SAFETY_HOLD", "an owner reports a dangerous safety incident; check it before buying")
+        else:
+            worse("PROVISIONAL", "serious safety complaints in reviews need checking")
     if coverage < MIN_COVERAGE:
         worse("INSUFFICIENT_EVIDENCE", f"only {coverage * 100:.0f}% of the scoring weight has evidence")
     elif coverage < FULL_COVERAGE:
@@ -138,7 +142,7 @@ def evaluate(data: dict, profile_dir=None) -> dict:
                 # A ratio is only as good as the quality score behind it: scale by its evidence coverage.
                 conf = min(r["quality_conf"] or 0, 70.0) * (r["quality_cov"] or 0)
                 r["criteria"].append(Criterion("price_value", "quality per unit of price", ratios[id(r)] / best * 100, conf, 1.0, (),
-                                               f"quality {r['quality']} for {total.format()} (to the door, before tax), "
+                                               f"quality score excluding price {r['quality']} for {total.format()} (to the door, before tax), "
                                                "relative to the best ratio in this comparison", "computed"))
                 r["dims"] = _aggregate(r["criteria"])
     elif priced:
@@ -170,6 +174,9 @@ def evaluate(data: dict, profile_dir=None) -> dict:
             "missing_dimensions": [d for d in DIMENSIONS if d not in r["dims"] and weights.get(d, 0) > 0],
             "safety": sres, "reviews": ctx.notes.get("_reviews", {}).get(p.id), "notes": notes,
             "unknown_claims": [c.claim_type for c in p.claims if not c.is_known()],
+            "limitations": [f"{c.claim_type}: {'; '.join(c.limitations)}" for c in p.claims if c.limitations],
+            "unscored_claims": sorted({c.claim_type for c in p.claims if c.is_known()} - {
+                cl.claim_type for crit in r["criteria"] for cid in crit.claims for cl in p.claims if cl.id == cid}),
         })
     return {"algorithm_version": ALGORITHM_VERSION, "profile": profile["id"], "profile_version": profile["version"],
             "profile_lineage": profile["lineage"], "calibration": profile.get("calibration", ""),
@@ -202,8 +209,10 @@ def rankings(evals: list, request) -> dict:
             top = max(cands, key=lambda e: e["dimensions"][d]["score"])
             best[d] = top["product_id"]
     out["best_by_dimension"] = best
-    recommendable = [e for e in sorted(evals, key=_key) if e["eligibility"] in RECOMMENDABLE
+    field = "personal_score" if request.priorities else "overall_score"
+    recommendable = [e for e in sorted(evals, key=lambda e: _key(e, field)) if e["eligibility"] in RECOMMENDABLE
                      and (e["within_budget"] is not False)]
+    out["recommended_by"] = "your priorities" if request.priorities else "the category weights"
     out["recommended"] = recommendable[0]["product_id"] if recommendable else None
     out["avoid"] = [e["product_id"] for e in evals if e["eligibility"] in ("EXCLUDED", "SAFETY_HOLD")]
     return out

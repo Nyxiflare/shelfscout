@@ -22,6 +22,10 @@ def assess(product, ctx) -> dict:
     claims = {c.id: c for c in product.claims}
     result = {"requirements": [], "failed_mandatory": [], "unresolved_mandatory": [], "active_recalls": [],
               "closed_recalls": [], "criteria": []}
+    if not any(r["mandatory"] for r in reqs):
+        ctx.note(product.id, f"No mandatory safety requirements are on record in the '{ctx.profile['id']}' profile for "
+                             f"{ctx.request.country or 'this market'}. Only the safety evidence listed was checked; "
+                             "check local rules before relying on it.")
     for r in reqs:
         rec = records.get(r["id"])
         entry = {"id": r["id"], "name": r["name"], "jurisdiction": r["jurisdiction"], "mandatory": r["mandatory"],

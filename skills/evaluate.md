@@ -103,8 +103,13 @@ evidence counts with less confidence. Never copy another variant's reviews or sp
 
 - **Source types:** `independent_lab`, `government_record`, `standards_body`, `expert_review`,
   `manufacturer`, `marketplace_listing`, `customer_reviews`, `forum`, `reference_data`,
-  `user_provided`, `model`. Set `independence` (`independent`, `manufacturer`, `seller`,
-  `affiliated`, `unknown`) when it isn't obvious, especially for review sites with affiliate links.
+  `user_provided`, `model`.
+- **Independence:** `independent`, `manufacturer`, `seller`, `affiliated` or `unknown`. **Always set
+  it for `expert_review` and `forum` sources.** They default to `unknown`, which can't support an
+  `INDEPENDENTLY_TESTED` claim. Use `affiliated` for sites paid through affiliate links or
+  sponsorship. An affiliated site's own "test" can't be `INDEPENDENTLY_TESTED`: leave it out, or
+  mention it as a limitation of the manufacturer's claim. Don't relabel it as some other status.
+- **A brand's own store on a marketplace** counts as `independence: "manufacturer"`.
 - **Units:** mm, cm, m, in, g, kg, lb, MPa, GPa, psi, kg/m3, g/cm3, W/m.K, h, W, kWh, mAh, %.
   Ranges are `{"min": …, "max": …}`.
 - **Listing currency** must match the market currency. Convert first with a dated rate and say so.
@@ -112,6 +117,14 @@ evidence counts with less confidence. Never copy another variant's reviews or sp
   durability, comfort, fit, quality, performance, service, design, assembly, value, safety, other.
   `severity` (1–5) is for negatives: 5 is dangerous or product-ending, 1 is cosmetic. Add
   `ownership_months` when the reviewer says how long they've owned it. Duplicated texts count once.
+  Tag every review you collect, including short ones (a bare "Great!" gets no aspects). Use only
+  what the review says; don't infer problems it doesn't mention.
+- **Reviews from another variant:** add `"variant_match": "other_variant"` (or `product_family`) to
+  the `reviews` block. They then count with lower confidence.
+- **Split warranties** (for example 5 years on the frame, 1 on upholstery): record `warranty.years` as
+  the main structural cover, and put the shorter cover in `limitations`. The report shows limitations.
+- **A logo or "certified" text on a listing** can back a safety record `pass`, but the engine counts it
+  as *declared*, not verified. Only an independent record or test counts as verified.
 - **Criteria** are your judgements, allowed for any dimension except safety and price-to-value, and
   only when tied to known claims. They count with lower confidence than a computed criterion.
   Prefer claims the engine can score itself.
@@ -128,9 +141,9 @@ evidence counts with less confidence. Never copy another variant's reviews or sp
 | `brand.years_in_market` · `brand.recalls_last_5_years` · `brand.publishes_full_specs` | number · number · true/false | Brand trust |
 | `test.failure_rate_pct` | number, independent | Reliability |
 | `test.safety.<name>` | true/false, independent | Safety |
-| `certification.<name>` + a `safety` record | text | Safety (requirement met) |
+| `certification.<name>` + a `safety` record | text | Safety (requirement met). Use the requirement's short name: `certification.fcc`, `certification.ce`, `certification.ukca`, `certification.bis`, `certification.cpc`, `certification.bifma` |
 | `feature.<name>` | true/false (matched against `must_have`) | Features |
-| `performance.<name>` + `test.<name>` | advertised vs. tested value, same unit | Features (tested ÷ advertised) |
+| `performance.<name>` + `test.<name>` | advertised vs. tested value, same unit and **exactly the same `<name>`** (e.g. `battery_hours`, `charge_minutes`, `brightness_nits`, `max_load_kg`) | Features (tested ÷ advertised) |
 | **Office chair:** `ergonomics.seat_height` / `seat_depth` / `seat_width` (mm), `ergonomics.lumbar` (adjustable/fixed/none), `ergonomics.armrest_adjustments` (0–4), `ergonomics.recline_lock`, `construction.gas_lift_class`, `construction.seat_foam_density` (kg/m3), `construction.weight_capacity` (kg) | | Ergonomics, Materials, Durability |
 | **Smartphone:** `construction.ip_rating`, `software.update_years`, `ergonomics.width` (mm), `ergonomics.weight` (g) | | Materials, Durability, Ergonomics |
 | **Running shoes:** `fit.widths_available` (list), `fit.heel_toe_drop` (mm), `ergonomics.weight` (g), `construction.outsole_rubber_coverage_pct` | | Ergonomics, Materials |
@@ -149,6 +162,15 @@ your evidence-tied criteria. They'll usually come out *provisional*, which is ho
   - `SAFETY_HOLD`: a required safety check is missing or weak.
   - `EXCLUDED`: an active recall or a failed mandatory requirement. No score or preference overrides it.
 - Over-budget products never win the budget ranking. "Unknown" means not established, not bad.
+- **Priorities:** when the person gives `priorities`, the recommendation follows their priority
+  weights. Gates still apply, and the report shows both scores.
+- **Review safety reports:** an owner reporting a dangerous incident (severity 5, such as a tip-over,
+  fire or shock) puts the product on `SAFETY_HOLD` until you've checked it. Severity 4 makes it at
+  least provisional. Mention these incidents in your answer; don't bury them in a percentage.
+- The report lists claims you recorded that the engine doesn't score ("recorded but not used"). Mention
+  them in your answer if they matter, but don't invent claim types to get a score.
+- When the profile has no mandatory requirements on record for the country, the report says so.
+  Tell the person to check local rules.
 
 ## Never
 

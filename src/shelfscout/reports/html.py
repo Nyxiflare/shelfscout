@@ -27,6 +27,10 @@ def render(result: dict) -> str:
         url = x.get("url") or ""
         link = f'<a href="{e(url)}" rel="noopener noreferrer">listing</a>' if url.startswith(("http://", "https://")) else ""
         reasons = f'<p class="why">{e("; ".join(x["eligibility_reasons"]))}</p>' if x["eligibility_reasons"] else ""
+        if x.get("unknown_claims"):
+            reasons += f'<p class="meta">Not established: {e(", ".join(x["unknown_claims"]))}</p>'
+        if x.get("limitations"):
+            reasons += f'<p class="meta">Limitations: {e(" | ".join(x["limitations"]))}</p>'
         score = "–" if x["overall_score"] is None else f'{x["overall_score"]:.0f}'
         cards.append(f'<article><h2>#{i} {e(x["name"])}</h2><p class="meta">{e(x["price"] or "price not recorded")} · '
                      f'confidence {e(str(x["confidence"]))} · coverage {x["coverage"] * 100:.0f}% · '

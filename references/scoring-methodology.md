@@ -57,13 +57,13 @@ In order of severity: `EXCLUDED` > `SAFETY_HOLD` > `INSUFFICIENT_EVIDENCE` > `PR
   testing, or REACH) make the result provisional instead.
 - A requirement met by a manufacturer's statement scores 60 ("declared"). Only an independent
   record or test scores 100 ("verified").
-- Serious safety complaints in reviews make a result at least `PROVISIONAL` until they're checked.
+- Owner reports of a dangerous incident (severity 5) put a product on `SAFETY_HOLD`, and serious safety complaints (severity 4) make it at least `PROVISIONAL`, until they're checked.
 - Personal priorities change the weights for the personal ranking, but never the gates.
 
 ## 5. Rankings
 - **Overall:** by status, then score.
 - **Within budget:** only products inside the budget.
-- **Personal:** by the user's priority weights; 10% of the weight stays with unnamed dimensions.
+- **Personal:** by the user's priority weights; 10% of the weight stays with unnamed dimensions. When priorities are given, the recommendation follows this ranking.
 - **Best by dimension:** among recommendable products with dimension confidence of at least 40,
   inside the budget.
 

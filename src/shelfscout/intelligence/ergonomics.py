@@ -59,12 +59,20 @@ def office_chair(product, ctx) -> list:
                 bp = float(body["buttock_popliteal_cm"]) * 10
                 ideal = Range.of(bp - 150, bp - 50, "mm")       # leave a hand's width or so behind the knee
                 lo, hi = float(r.low.value), float(r.high.value)
-                overlap = not (hi < float(ideal.low.value) or lo > float(ideal.high.value))
-                score = 100.0 if overlap else max(0.0, 100 - min(abs(lo - float(ideal.high.value)),
-                                                                 abs(hi - float(ideal.low.value))) * 1.5)
+                ilo, ihi = float(ideal.low.value), float(ideal.high.value)
+                shared = min(hi, ihi) - max(lo, ilo)
+                if shared >= 0:
+                    usable = max(shared, 0.0)
+                    span = max(min(hi - lo, ihi - ilo), 1.0)
+                    score = 60 + 40 * min(1.0, usable / min(span, 40.0))   # full marks once 40 mm of travel fits
+                    where = ("fits across a good part of its travel" if score >= 90 else
+                             "fits only near its shallowest setting" if lo > ilo else "fits only near its deepest setting")
+                else:
+                    score = max(0.0, 60 - min(abs(lo - ihi), abs(hi - ilo)) * 1.5)
+                    where = "doesn't fit at any setting"
                 out.append(Criterion("ergonomics", "seat depth fits you", score, ctx.conf(sd), 1.5, (sd.id,),
-                                     f"seat depth {lo:.0f}-{hi:.0f} mm vs {ideal.low.value:.0f}-{ideal.high.value:.0f} mm "
-                                     f"for your thigh length ({APPROX})"))
+                                     f"seat depth {lo:.0f}-{hi:.0f} mm vs {ilo:.0f}-{ihi:.0f} mm for your thigh length: "
+                                     f"{where} ({APPROX})"))
             else:
                 adjustable = float(r.high.value - r.low.value) > 0
                 out.append(Criterion("ergonomics", "seat depth adjustable", 85 if adjustable else 45, ctx.conf(sd), 1.0,
