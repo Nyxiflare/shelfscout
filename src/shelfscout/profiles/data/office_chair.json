@@ -31,5 +31,28 @@
       "name": "EN 1335 office work chair requirements (voluntary standard)",
       "mandatory": false
     }
-  ]
+  ],
+  "spec_rules": {
+    "materials_build": [
+      {
+        "claim": "construction.gas_lift_class",
+        "kind": "map",
+        "map": {
+          "4": 100,
+          "3": 80,
+          "2": 50,
+          "1": 30
+        },
+        "label": "gas lift class"
+      },
+      {
+        "claim": "construction.seat_foam_density",
+        "kind": "linear",
+        "poor": 25,
+        "good": 55,
+        "unit": "kg/m3",
+        "label": "seat foam density"
+      }
+    ]
+  }
 }

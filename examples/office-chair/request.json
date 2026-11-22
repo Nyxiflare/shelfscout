@@ -1,0 +1,726 @@
+{
+  "about": "SYNTHETIC EXAMPLE: invented products and evidence for demonstrating and testing the engine. No real product, brand, listing or review is described.",
+  "category": "office_chair",
+  "as_of": "2026-11-22",
+  "market": {
+    "country": "IN",
+    "currency": "INR"
+  },
+  "user": {
+    "budget": {
+      "min": 8000,
+      "max": 12000
+    },
+    "priorities": {
+      "ergonomics": 35,
+      "durability": 30,
+      "materials_build": 20,
+      "safety": 15
+    },
+    "body": {
+      "popliteal_height_cm": 44,
+      "buttock_popliteal_cm": 48,
+      "hip_breadth_cm": 38,
+      "weight_kg": 82
+    },
+    "use": "8+ hours a day at a desk"
+  },
+  "sources": [
+    {
+      "id": "ergo-site",
+      "name": "ErgoOne product page (synthetic)",
+      "type": "manufacturer",
+      "url": "https://example.com/ergoone"
+    },
+    {
+      "id": "ergo-listing",
+      "name": "Marketplace listing (synthetic)",
+      "type": "marketplace_listing",
+      "url": "https://example.com/listing/ergoone"
+    },
+    {
+      "id": "ergo-reviews",
+      "name": "Marketplace reviews, 20 sampled (synthetic)",
+      "type": "customer_reviews"
+    },
+    {
+      "id": "lab-a",
+      "name": "Independent furniture test lab report (synthetic)",
+      "type": "independent_lab",
+      "published_at": "2026-06-10"
+    },
+    {
+      "id": "budget-site",
+      "name": "BudgetSeat listing (synthetic)",
+      "type": "marketplace_listing"
+    },
+    {
+      "id": "budget-reviews",
+      "name": "BudgetSeat reviews (synthetic)",
+      "type": "customer_reviews"
+    },
+    {
+      "id": "luxe-site",
+      "name": "LuxeMesh product page (synthetic)",
+      "type": "manufacturer"
+    },
+    {
+      "id": "recall-db",
+      "name": "Government recall notice (synthetic)",
+      "type": "government_record"
+    }
+  ],
+  "products": [
+    {
+      "id": "ergoone",
+      "name": "ErgoOne Pro (synthetic)",
+      "brand": "ErgoOne",
+      "model_number": "EO-PRO-2",
+      "listing": {
+        "marketplace": "Example marketplace",
+        "price": 10499,
+        "shipping": 0,
+        "url": "https://example.com/listing/ergoone",
+        "observed_at": "2026-11-22",
+        "source": "ergo-listing"
+      },
+      "claims": [
+        {
+          "id": "e1",
+          "claim_type": "material.frame",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "aluminium alloy",
+          "source": "ergo-site",
+          "observed_at": "2026-11-20",
+          "limitations": [
+            "alloy grade not disclosed"
+          ]
+        },
+        {
+          "id": "e2",
+          "claim_type": "ergonomics.seat_height",
+          "status": "MANUFACTURER_REPORTED",
+          "value": {
+            "min": 430,
+            "max": 530
+          },
+          "source": "ergo-site",
+          "unit": "mm"
+        },
+        {
+          "id": "e3",
+          "claim_type": "ergonomics.seat_depth",
+          "status": "MANUFACTURER_REPORTED",
+          "value": {
+            "min": 420,
+            "max": 480
+          },
+          "source": "ergo-site",
+          "unit": "mm"
+        },
+        {
+          "id": "e4",
+          "claim_type": "ergonomics.seat_width",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 500,
+          "source": "ergo-site",
+          "unit": "mm"
+        },
+        {
+          "id": "e5",
+          "claim_type": "ergonomics.lumbar",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "adjustable",
+          "source": "ergo-site"
+        },
+        {
+          "id": "e6",
+          "claim_type": "ergonomics.armrest_adjustments",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 4,
+          "source": "ergo-site"
+        },
+        {
+          "id": "e7",
+          "claim_type": "ergonomics.recline_lock",
+          "status": "MANUFACTURER_REPORTED",
+          "value": true,
+          "source": "ergo-site"
+        },
+        {
+          "id": "e8",
+          "claim_type": "construction.gas_lift_class",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "4",
+          "source": "ergo-site"
+        },
+        {
+          "id": "e9",
+          "claim_type": "construction.seat_foam_density",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 45,
+          "source": "ergo-site",
+          "unit": "kg/m3"
+        },
+        {
+          "id": "e10",
+          "claim_type": "construction.weight_capacity",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 120,
+          "source": "ergo-site",
+          "unit": "kg"
+        },
+        {
+          "id": "e11",
+          "claim_type": "warranty.years",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 3,
+          "source": "ergo-site"
+        },
+        {
+          "id": "e12",
+          "claim_type": "service.network_in_country",
+          "status": "MANUFACTURER_REPORTED",
+          "value": true,
+          "source": "ergo-site"
+        },
+        {
+          "id": "e13",
+          "claim_type": "repair.spare_parts_available",
+          "status": "MANUFACTURER_REPORTED",
+          "value": true,
+          "source": "ergo-site"
+        },
+        {
+          "id": "e14",
+          "claim_type": "test.safety.stability_and_strength",
+          "status": "INDEPENDENTLY_TESTED",
+          "value": true,
+          "source": "lab-a",
+          "quote": "Passed stability and seat-strength tests (synthetic report)"
+        },
+        {
+          "id": "e15",
+          "claim_type": "material.frame_grade",
+          "status": "UNKNOWN"
+        }
+      ],
+      "reviews": {
+        "source": "ergo-reviews",
+        "items": [
+          {
+            "rating": 5,
+            "date": "2026-01-01",
+            "verified": true,
+            "text": "Back pain gone after a week, lumbar knob is easy to set",
+            "aspects": [
+              {
+                "aspect": "lumbar support",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "lumbar knob is easy"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-02-02",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 0",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-03-03",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 1",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-04-04",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 2",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-05-05",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 3",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-06-06",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 4",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-07-07",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 5",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-08-08",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 6",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-09-09",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 7",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-01-10",
+            "verified": true,
+            "text": "Comfortable for long workdays, review number 8",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "comfortable for long days"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-02-11",
+            "verified": true,
+            "text": "Still solid after eight months of daily use",
+            "aspects": [
+              {
+                "aspect": "build",
+                "category": "durability",
+                "sentiment": "positive",
+                "quote": "still solid",
+                "ownership_months": 8
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-03-12",
+            "verified": true,
+            "text": "Seven months in and nothing has loosened",
+            "aspects": [
+              {
+                "aspect": "build",
+                "category": "durability",
+                "sentiment": "positive",
+                "quote": "nothing loosened",
+                "ownership_months": 7
+              }
+            ]
+          },
+          {
+            "rating": 2,
+            "date": "2026-04-13",
+            "verified": true,
+            "text": "Cushion went flat after six months",
+            "aspects": [
+              {
+                "aspect": "cushion",
+                "category": "durability",
+                "sentiment": "negative",
+                "severity": 3,
+                "quote": "cushion went flat",
+                "ownership_months": 6
+              }
+            ]
+          },
+          {
+            "rating": 3,
+            "date": "2026-05-14",
+            "verified": true,
+            "text": "Assembly instructions were confusing",
+            "aspects": [
+              {
+                "aspect": "assembly",
+                "category": "assembly",
+                "sentiment": "negative",
+                "severity": 2,
+                "quote": "instructions confusing"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-06-15",
+            "verified": true,
+            "text": "Looks smart in the home office",
+            "aspects": [
+              {
+                "aspect": "looks",
+                "category": "design",
+                "sentiment": "positive",
+                "quote": "looks smart"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-07-16",
+            "verified": true,
+            "text": "Service centre replaced a squeaky part quickly",
+            "aspects": [
+              {
+                "aspect": "service",
+                "category": "service",
+                "sentiment": "positive",
+                "quote": "replaced quickly"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-08-17",
+            "verified": true,
+            "text": "Armrests adjust in every direction",
+            "aspects": [
+              {
+                "aspect": "armrests",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "adjust in every direction"
+              }
+            ]
+          },
+          {
+            "rating": 2,
+            "date": "2026-09-18",
+            "verified": true,
+            "text": "One armrest wobbles a little",
+            "aspects": [
+              {
+                "aspect": "armrest",
+                "category": "defect",
+                "sentiment": "negative",
+                "severity": 2,
+                "quote": "armrest wobbles"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-01-19",
+            "verified": true,
+            "text": "Mesh stays cool",
+            "aspects": [
+              {
+                "aspect": "mesh",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "stays cool"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-02-20",
+            "verified": true,
+            "text": "Great design and colour",
+            "aspects": [
+              {
+                "aspect": "design",
+                "category": "design",
+                "sentiment": "positive",
+                "quote": "great design"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "budgetseat",
+      "name": "BudgetSeat Basic (synthetic)",
+      "brand": "BudgetSeat",
+      "model_number": "BS-1",
+      "listing": {
+        "marketplace": "Example marketplace",
+        "price": 6999,
+        "shipping": 0,
+        "source": "budget-site",
+        "observed_at": "2026-11-22"
+      },
+      "claims": [
+        {
+          "id": "b1",
+          "claim_type": "material.frame",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "steel",
+          "source": "budget-site",
+          "limitations": [
+            "listing only says 'steel'"
+          ]
+        },
+        {
+          "id": "b2",
+          "claim_type": "ergonomics.seat_height",
+          "status": "MANUFACTURER_REPORTED",
+          "value": {
+            "min": 460,
+            "max": 540
+          },
+          "source": "budget-site",
+          "unit": "mm"
+        },
+        {
+          "id": "b3",
+          "claim_type": "ergonomics.lumbar",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "fixed",
+          "source": "budget-site"
+        },
+        {
+          "id": "b4",
+          "claim_type": "ergonomics.armrest_adjustments",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 0,
+          "source": "budget-site"
+        },
+        {
+          "id": "b5",
+          "claim_type": "warranty.years",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 1,
+          "source": "budget-site"
+        }
+      ],
+      "reviews": {
+        "source": "budget-reviews",
+        "items": [
+          {
+            "rating": 5,
+            "date": "2026-01-01",
+            "verified": true,
+            "text": "Good value chair 0",
+            "aspects": []
+          },
+          {
+            "rating": 5,
+            "date": "2026-02-02",
+            "verified": true,
+            "text": "Good value chair 1",
+            "aspects": []
+          },
+          {
+            "rating": 5,
+            "date": "2026-03-03",
+            "verified": true,
+            "text": "Good value chair 2",
+            "aspects": []
+          },
+          {
+            "rating": 5,
+            "date": "2026-04-04",
+            "verified": true,
+            "text": "Good value chair 3",
+            "aspects": []
+          },
+          {
+            "rating": 1,
+            "date": "2026-05-05",
+            "verified": true,
+            "text": "Gas lift sinks after two months",
+            "aspects": [
+              {
+                "aspect": "gas lift",
+                "category": "failure",
+                "sentiment": "negative",
+                "severity": 4,
+                "quote": "gas lift sinks"
+              }
+            ]
+          },
+          {
+            "rating": 1,
+            "date": "2026-06-06",
+            "verified": true,
+            "text": "Base cracked within weeks",
+            "aspects": [
+              {
+                "aspect": "base",
+                "category": "failure",
+                "sentiment": "negative",
+                "severity": 5,
+                "quote": "base cracked"
+              }
+            ]
+          },
+          {
+            "rating": 2,
+            "date": "2026-07-07",
+            "verified": true,
+            "text": "Too high for me even at the lowest setting",
+            "aspects": [
+              {
+                "aspect": "seat height",
+                "category": "fit",
+                "sentiment": "negative",
+                "severity": 3,
+                "quote": "too high"
+              }
+            ]
+          },
+          {
+            "rating": 3,
+            "date": "2026-08-08",
+            "verified": true,
+            "text": "Okay for short use",
+            "aspects": []
+          },
+          {
+            "rating": 2,
+            "date": "2026-09-09",
+            "verified": true,
+            "text": "Back hurts after an hour",
+            "aspects": [
+              {
+                "aspect": "comfort",
+                "category": "comfort",
+                "sentiment": "negative",
+                "severity": 3,
+                "quote": "back hurts"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-01-10",
+            "verified": true,
+            "text": "Fine for the price",
+            "aspects": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "luxemesh",
+      "name": "LuxeMesh Executive (synthetic)",
+      "brand": "LuxeMesh",
+      "model_number": "LM-EX",
+      "listing": {
+        "marketplace": "Example marketplace",
+        "price": 11999,
+        "shipping": 0,
+        "source": "luxe-site",
+        "observed_at": "2026-11-22"
+      },
+      "claims": [
+        {
+          "id": "l1",
+          "claim_type": "material.frame",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "6061-T6",
+          "source": "luxe-site"
+        },
+        {
+          "id": "l2",
+          "claim_type": "ergonomics.seat_height",
+          "status": "MANUFACTURER_REPORTED",
+          "value": {
+            "min": 420,
+            "max": 510
+          },
+          "source": "luxe-site",
+          "unit": "mm"
+        },
+        {
+          "id": "l3",
+          "claim_type": "ergonomics.lumbar",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "adjustable",
+          "source": "luxe-site"
+        },
+        {
+          "id": "l4",
+          "claim_type": "ergonomics.armrest_adjustments",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 3,
+          "source": "luxe-site"
+        },
+        {
+          "id": "l5",
+          "claim_type": "warranty.years",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 5,
+          "source": "luxe-site"
+        }
+      ],
+      "recalls": [
+        {
+          "id": "Synthetic recall R-2026-114: tilt mechanism can release unexpectedly",
+          "status": "active",
+          "source": "recall-db"
+        }
+      ]
+    }
+  ]
+}

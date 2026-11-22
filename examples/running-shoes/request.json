@@ -1,0 +1,475 @@
+{
+  "about": "SYNTHETIC EXAMPLE: invented products and evidence for demonstrating and testing the engine. No real product, brand, listing or review is described.",
+  "category": "running_shoes",
+  "as_of": "2026-11-22",
+  "market": {
+    "country": "GB",
+    "currency": "GBP"
+  },
+  "user": {
+    "budget": {
+      "min": 90,
+      "max": 150
+    },
+    "foot_width": "wide",
+    "preferred_drop_mm": [
+      6,
+      10
+    ],
+    "use": "daily training, 40 km a week"
+  },
+  "sources": [
+    {
+      "id": "strid-site",
+      "name": "Stride 5 product page (synthetic)",
+      "type": "manufacturer"
+    },
+    {
+      "id": "strid-reviews",
+      "name": "Runner reviews (synthetic)",
+      "type": "customer_reviews"
+    },
+    {
+      "id": "lab-s",
+      "name": "Independent shoe lab measurements (synthetic)",
+      "type": "expert_review",
+      "independence": "independent",
+      "published_at": "2026-09-15"
+    },
+    {
+      "id": "glide-site",
+      "name": "Glide Pro product page (synthetic)",
+      "type": "manufacturer"
+    },
+    {
+      "id": "glide-reviews",
+      "name": "Runner reviews (synthetic)",
+      "type": "customer_reviews"
+    }
+  ],
+  "products": [
+    {
+      "id": "stride5",
+      "name": "Stride 5 (synthetic)",
+      "brand": "Stride",
+      "model_number": "ST5",
+      "variant": {
+        "width": "wide"
+      },
+      "listing": {
+        "marketplace": "Example store",
+        "price": 120,
+        "shipping": 0,
+        "source": "strid-site",
+        "observed_at": "2026-11-22"
+      },
+      "claims": [
+        {
+          "id": "s1",
+          "claim_type": "material.midsole",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "eTPU",
+          "source": "strid-site"
+        },
+        {
+          "id": "s2",
+          "claim_type": "fit.widths_available",
+          "status": "MANUFACTURER_REPORTED",
+          "value": [
+            "standard",
+            "wide"
+          ],
+          "source": "strid-site"
+        },
+        {
+          "id": "s3",
+          "claim_type": "fit.heel_toe_drop",
+          "status": "INDEPENDENTLY_TESTED",
+          "value": 8,
+          "source": "lab-s",
+          "unit": "mm"
+        },
+        {
+          "id": "s4",
+          "claim_type": "ergonomics.weight",
+          "status": "INDEPENDENTLY_TESTED",
+          "value": 265,
+          "source": "lab-s",
+          "unit": "g"
+        },
+        {
+          "id": "s5",
+          "claim_type": "construction.outsole_rubber_coverage_pct",
+          "status": "INDEPENDENTLY_TESTED",
+          "value": 70,
+          "source": "lab-s"
+        },
+        {
+          "id": "s6",
+          "claim_type": "warranty.years",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 0.5,
+          "source": "strid-site"
+        }
+      ],
+      "reviews": {
+        "source": "strid-reviews",
+        "items": [
+          {
+            "rating": 5,
+            "date": "2026-01-01",
+            "verified": true,
+            "text": "Plenty of room in the wide fit, run 0",
+            "aspects": [
+              {
+                "aspect": "fit",
+                "category": "fit",
+                "sentiment": "positive",
+                "quote": "plenty of room"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-02-02",
+            "verified": true,
+            "text": "Plenty of room in the wide fit, run 1",
+            "aspects": [
+              {
+                "aspect": "fit",
+                "category": "fit",
+                "sentiment": "positive",
+                "quote": "plenty of room"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-03-03",
+            "verified": true,
+            "text": "Plenty of room in the wide fit, run 2",
+            "aspects": [
+              {
+                "aspect": "fit",
+                "category": "fit",
+                "sentiment": "positive",
+                "quote": "plenty of room"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-04-04",
+            "verified": true,
+            "text": "Plenty of room in the wide fit, run 3",
+            "aspects": [
+              {
+                "aspect": "fit",
+                "category": "fit",
+                "sentiment": "positive",
+                "quote": "plenty of room"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-05-05",
+            "verified": true,
+            "text": "Plenty of room in the wide fit, run 4",
+            "aspects": [
+              {
+                "aspect": "fit",
+                "category": "fit",
+                "sentiment": "positive",
+                "quote": "plenty of room"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-06-06",
+            "verified": true,
+            "text": "Plenty of room in the wide fit, run 5",
+            "aspects": [
+              {
+                "aspect": "fit",
+                "category": "fit",
+                "sentiment": "positive",
+                "quote": "plenty of room"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-07-07",
+            "verified": true,
+            "text": "500 km in and the outsole still has grip",
+            "aspects": [
+              {
+                "aspect": "outsole",
+                "category": "durability",
+                "sentiment": "positive",
+                "quote": "still has grip",
+                "ownership_months": 7
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-08-08",
+            "verified": true,
+            "text": "Six months of training and the foam still feels bouncy",
+            "aspects": [
+              {
+                "aspect": "foam",
+                "category": "durability",
+                "sentiment": "positive",
+                "quote": "still bouncy",
+                "ownership_months": 6
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-09-09",
+            "verified": true,
+            "text": "After nine months they are my favourite daily trainer",
+            "aspects": [
+              {
+                "aspect": "overall",
+                "category": "durability",
+                "sentiment": "positive",
+                "quote": "favourite",
+                "ownership_months": 9
+              }
+            ]
+          },
+          {
+            "rating": 2,
+            "date": "2026-01-10",
+            "verified": true,
+            "text": "Heel counter rubs on long runs",
+            "aspects": [
+              {
+                "aspect": "heel counter",
+                "category": "comfort",
+                "sentiment": "negative",
+                "severity": 3,
+                "quote": "rubs on long runs"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-02-11",
+            "verified": true,
+            "text": "Nice colours",
+            "aspects": [
+              {
+                "aspect": "colour",
+                "category": "design",
+                "sentiment": "positive",
+                "quote": "nice colours"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-03-12",
+            "verified": true,
+            "text": "Good for easy runs",
+            "aspects": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "glidepro",
+      "name": "Glide Pro (synthetic)",
+      "brand": "Glide",
+      "model_number": "GP1",
+      "listing": {
+        "marketplace": "Example store",
+        "price": 145,
+        "shipping": 0,
+        "source": "glide-site",
+        "observed_at": "2026-11-22"
+      },
+      "claims": [
+        {
+          "id": "g1",
+          "claim_type": "material.midsole",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "PEBA",
+          "source": "glide-site"
+        },
+        {
+          "id": "g2",
+          "claim_type": "fit.widths_available",
+          "status": "MANUFACTURER_REPORTED",
+          "value": [
+            "standard"
+          ],
+          "source": "glide-site"
+        },
+        {
+          "id": "g3",
+          "claim_type": "fit.heel_toe_drop",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 8,
+          "source": "glide-site",
+          "unit": "mm"
+        },
+        {
+          "id": "g4",
+          "claim_type": "ergonomics.weight",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 215,
+          "source": "glide-site",
+          "unit": "g"
+        },
+        {
+          "id": "g5",
+          "claim_type": "construction.outsole_rubber_coverage_pct",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 35,
+          "source": "glide-site"
+        }
+      ],
+      "reviews": {
+        "source": "glide-reviews",
+        "items": [
+          {
+            "rating": 5,
+            "date": "2026-01-01",
+            "verified": true,
+            "text": "So light and fast, race 0",
+            "aspects": [
+              {
+                "aspect": "feel",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "light and fast"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-02-02",
+            "verified": true,
+            "text": "So light and fast, race 1",
+            "aspects": [
+              {
+                "aspect": "feel",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "light and fast"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-03-03",
+            "verified": true,
+            "text": "So light and fast, race 2",
+            "aspects": [
+              {
+                "aspect": "feel",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "light and fast"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-04-04",
+            "verified": true,
+            "text": "So light and fast, race 3",
+            "aspects": [
+              {
+                "aspect": "feel",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "light and fast"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-05-05",
+            "verified": true,
+            "text": "So light and fast, race 4",
+            "aspects": [
+              {
+                "aspect": "feel",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "light and fast"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-06-06",
+            "verified": true,
+            "text": "So light and fast, race 5",
+            "aspects": [
+              {
+                "aspect": "feel",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "light and fast"
+              }
+            ]
+          },
+          {
+            "rating": 2,
+            "date": "2026-07-07",
+            "verified": true,
+            "text": "Outsole worn through after 250 km",
+            "aspects": [
+              {
+                "aspect": "outsole",
+                "category": "durability",
+                "sentiment": "negative",
+                "severity": 4,
+                "quote": "worn through after 250 km"
+              }
+            ]
+          },
+          {
+            "rating": 2,
+            "date": "2026-08-08",
+            "verified": true,
+            "text": "Too narrow for my feet",
+            "aspects": [
+              {
+                "aspect": "fit",
+                "category": "fit",
+                "sentiment": "negative",
+                "severity": 3,
+                "quote": "too narrow"
+              }
+            ]
+          },
+          {
+            "rating": 3,
+            "date": "2026-09-09",
+            "verified": true,
+            "text": "Upper tore near the toe",
+            "aspects": [
+              {
+                "aspect": "upper",
+                "category": "defect",
+                "sentiment": "negative",
+                "severity": 4,
+                "quote": "upper tore"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

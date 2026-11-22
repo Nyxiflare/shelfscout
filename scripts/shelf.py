@@ -16,6 +16,14 @@ Commands
           seller profit per unit after fees, ads and returns
   fees    list the fee presets and when they were last checked
 
+V2 evaluation engine (evidence-based scoring; see skills/evaluate.md):
+  evaluate FILE.json [--md report.md] [--json result.json] [--html report.html] [--save] [--db PATH]
+  profile  [CATEGORY]                     list profiles, or show one (weights, gates, requirements)
+  materials [--search TEXT] [--suitability MATERIAL [--application APP]]
+  identity FILE.json                      do two listings describe the same product variant?
+  tco      --price 25000 --currency INR --years 5 [--maintenance N] [--consumables N] [--repairs N] [--kwh N --kwh-price N]
+  history  [--name TEXT] [--db PATH]      evaluations saved with --save
+
 Input files are JSON; see the SKILL.md "Data formats" section. Standard library only, no network.
 """
 from __future__ import annotations
@@ -493,6 +501,137 @@ def cmd_fees(a) -> int:
     return 0
 
 
+# --------------------------------------------------------------------------- V2 engine commands
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+
+def _engine_errors():
+    from shelfscout.core.errors import ShelfScoutError
+    return (ShelfScoutError, ValueError, KeyError)
+
+
+def _write(path: str, text: str) -> None:
+    try:
+        Path(path).write_text(text, encoding="utf-8")
+    except OSError as err:
+        fail(f"Couldn't write {path} ({err.strerror}).")
+    out(f"Saved {path}")
+
+
+def cmd_evaluate(a) -> int:
+    from shelfscout.scoring.engine import evaluate
+    from shelfscout.reports import html as html_report
+    from shelfscout.reports import markdown
+    data = load_json(a.file)
+    try:
+        result = evaluate(data)
+    except _engine_errors() as err:
+        fail(f"Can't evaluate {a.file}: {err}")
+    text = markdown.render(result)
+    out(text)
+    if a.md:
+        _write(a.md, text)
+    if a.json:
+        _write(a.json, json.dumps(result, indent=2, default=str, ensure_ascii=False))
+    if a.html:
+        _write(a.html, html_report.render(result))
+    if a.save:
+        from shelfscout.store import sqlite as store
+        eid = store.save(a.db, data, result)
+        out(f"Saved evaluation {eid} to {a.db}")
+    return 0
+
+
+def cmd_profile(a) -> int:
+    from shelfscout.profiles.loader import DIMENSION_LABELS, list_profiles, load_profile
+    if not a.category:
+        out("Profiles: " + ", ".join(list_profiles()))
+        return 0
+    try:
+        p = load_profile(a.category)
+    except _engine_errors() as err:
+        fail(str(err))
+    out(f"{p.get('name', p['id'])} (v{p['version']}, {' > '.join(p['lineage'])})")
+    out(p.get("calibration", ""))
+    for d, w in sorted(p["weights"].items(), key=lambda kv: -kv[1]):
+        out(f"  {DIMENSION_LABELS[d]:<24}{w:>5g}%")
+    for g in p.get("gates", []):
+        out(f"Gate {g['id']}: no {g['dimension']} evidence -> {g['on_missing']}; "
+            f"below {g.get('min_score')} -> {g.get('on_below')}")
+    for r in p.get("safety_requirements", []):
+        out(f"Requirement [{r['jurisdiction']}] {'mandatory' if r['mandatory'] else 'voluntary'}: {r['name']} ({r['id']})")
+    if p.get("requirements_reviewed"):
+        out(f"Requirements reviewed: {p['requirements_reviewed']}")
+    return 0
+
+
+def cmd_materials(a) -> int:
+    from shelfscout.intelligence import materials as mat
+    apps_all = mat.catalogue()["applications"]
+    if a.suitability:
+        m = mat.find(a.suitability)
+        if m is None:
+            fail(f"'{a.suitability}' isn't in the catalogue (exact names and aliases only).")
+        apps = [a.application] if a.application else list(apps_all)
+        for app in apps:
+            if app not in apps_all:
+                fail(f"Unknown application '{app}'. Use {', '.join(apps_all)}.")
+            r = mat.suitability(m, app)
+            if r["complete"]:
+                out(f"{m['name']} for {app}: {r['score']} (plausible {r['spread'][0]}-{r['spread'][1]})"
+                    + (" [grade not stated]" if r["grade_unknown"] else ""))
+            else:
+                out(f"{m['name']} for {app}: incomplete, missing {', '.join(r['required_missing'] or r['missing'])}")
+        out(mat.catalogue()["about"])
+        return 0
+    rows = mat.search(a.search) if a.search else mat.catalogue()["materials"]
+    for m in rows:
+        props = ", ".join(f"{k} {v[0]}-{v[1]} {v[2]}" for k, v in m.get("properties", {}).items())
+        out(f"{m['name']} [{m['id']}]: {props}")
+    if not rows:
+        out("No matching materials.")
+    return 0
+
+
+def cmd_identity(a) -> int:
+    from shelfscout.identity.matching import compare as same
+    data = load_json(a.file)
+    items = data.get("listings") if isinstance(data, dict) else data
+    if not isinstance(items, list) or len(items) != 2:
+        fail("Give a JSON list of exactly two listings (name, brand, model_number, gtin, variant).")
+    r = same(items[0], items[1])
+    out(f"{r['verdict']}: {r['basis']}")
+    return 0
+
+
+def cmd_tco(a) -> int:
+    from shelfscout.core.money import Money
+    from shelfscout.intelligence.price import tco
+    try:
+        r = tco(Money(a.price, a.currency), float(a.years), maintenance_per_year=a.maintenance,
+                consumables_per_year=a.consumables, expected_repairs=a.repairs,
+                energy_kwh_per_year=a.kwh, energy_price_per_kwh=a.kwh_price)
+    except _engine_errors() as err:
+        fail(str(err))
+    for k, v in r["parts"].items():
+        out(f"- {k:<12}{v.format()}")
+    out(f"= Total over {r['years']:g} years: {r['total'].format()} ({r['per_year'].format()} per year)")
+    if r["missing"]:
+        out("Not included (no evidence given): " + ", ".join(r["missing"]))
+    return 0
+
+
+def cmd_history(a) -> int:
+    from shelfscout.store import sqlite as store
+    rows = store.history(a.db, a.name)
+    if not rows:
+        out("No saved evaluations.")
+    for eid, created, cat, name, score, status, ver in rows:
+        out(f"{created}  {cat:<14} {name:<30} {score if score is not None else '-':>6}  {status:<22} {eid} (engine {ver})")
+    return 0
+
+
 # --------------------------------------------------------------------------- main
 
 def main(argv=None) -> int:
@@ -540,9 +679,39 @@ def main(argv=None) -> int:
     p.add_argument("--other", default="0")
     p.add_argument("--currency", default="USD")
     sub.add_parser("fees")
+    db_default = str(Path.cwd() / "shelfscout-data" / "shelfscout.db")
+    p = sub.add_parser("evaluate")
+    p.add_argument("file")
+    p.add_argument("--md")
+    p.add_argument("--json")
+    p.add_argument("--html")
+    p.add_argument("--save", action="store_true", help="keep this evaluation in the local history database")
+    p.add_argument("--db", default=db_default)
+    p = sub.add_parser("profile")
+    p.add_argument("category", nargs="?")
+    p = sub.add_parser("materials")
+    p.add_argument("--search")
+    p.add_argument("--suitability")
+    p.add_argument("--application")
+    p = sub.add_parser("identity")
+    p.add_argument("file")
+    p = sub.add_parser("tco")
+    p.add_argument("--price", required=True)
+    p.add_argument("--currency", default="USD")
+    p.add_argument("--years", required=True)
+    p.add_argument("--maintenance")
+    p.add_argument("--consumables")
+    p.add_argument("--repairs")
+    p.add_argument("--kwh")
+    p.add_argument("--kwh-price")
+    p = sub.add_parser("history")
+    p.add_argument("--name")
+    p.add_argument("--db", default=db_default)
     a = ap.parse_args(argv)
     return {"landed": cmd_landed, "unit": cmd_unit, "deal": cmd_deal, "reviews": cmd_reviews,
-            "compare": cmd_compare, "margin": cmd_margin, "fees": cmd_fees}[a.cmd](a)
+            "compare": cmd_compare, "margin": cmd_margin, "fees": cmd_fees, "evaluate": cmd_evaluate,
+            "profile": cmd_profile, "materials": cmd_materials, "identity": cmd_identity, "tco": cmd_tco,
+            "history": cmd_history}[a.cmd](a)
 
 
 if __name__ == "__main__":

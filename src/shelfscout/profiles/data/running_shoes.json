@@ -23,7 +23,19 @@
       "id": "eu-reach",
       "jurisdiction": "EU",
       "name": "REACH restricted substances (compliance is rarely verifiable from public information)",
-      "mandatory": true
+      "mandatory": true,
+      "on_unresolved": "PROVISIONAL"
     }
-  ]
+  ],
+  "spec_rules": {
+    "materials_build": [
+      {
+        "claim": "construction.outsole_rubber_coverage_pct",
+        "kind": "linear",
+        "poor": 20,
+        "good": 80,
+        "label": "rubber outsole coverage (%)"
+      }
+    ]
+  }
 }

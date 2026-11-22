@@ -1,0 +1,498 @@
+{
+  "about": "SYNTHETIC EXAMPLE: invented products and evidence for demonstrating and testing the engine. No real product, brand, listing or review is described.",
+  "category": "smartphone",
+  "as_of": "2026-11-22",
+  "market": {
+    "country": "US",
+    "currency": "USD"
+  },
+  "user": {
+    "budget": {
+      "max": 600
+    },
+    "must_have": [
+      "esim",
+      "wireless_charging",
+      "headphone_jack"
+    ],
+    "use": "one-handed use, 5+ years"
+  },
+  "sources": [
+    {
+      "id": "nova-site",
+      "name": "Nova 8 spec page (synthetic)",
+      "type": "manufacturer"
+    },
+    {
+      "id": "fcc",
+      "name": "FCC equipment authorization record (synthetic)",
+      "type": "government_record"
+    },
+    {
+      "id": "lab-p",
+      "name": "Independent battery test (synthetic)",
+      "type": "expert_review",
+      "independence": "independent",
+      "published_at": "2026-10-01"
+    },
+    {
+      "id": "nova-reviews",
+      "name": "Owner reviews (synthetic)",
+      "type": "customer_reviews"
+    },
+    {
+      "id": "zeta-site",
+      "name": "Zeta X listing (synthetic)",
+      "type": "marketplace_listing"
+    },
+    {
+      "id": "orbit-site",
+      "name": "Orbit Pro spec page (synthetic)",
+      "type": "manufacturer"
+    }
+  ],
+  "products": [
+    {
+      "id": "nova8",
+      "name": "Nova 8 (synthetic)",
+      "brand": "Nova",
+      "model_number": "N8-128",
+      "variant": {
+        "storage": "128GB"
+      },
+      "listing": {
+        "marketplace": "Example store",
+        "price": 499,
+        "shipping": 0,
+        "source": "nova-site",
+        "observed_at": "2026-11-22"
+      },
+      "claims": [
+        {
+          "id": "n1",
+          "claim_type": "material.frame",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "aluminium alloy",
+          "source": "nova-site"
+        },
+        {
+          "id": "n2",
+          "claim_type": "construction.ip_rating",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "IP68",
+          "source": "nova-site"
+        },
+        {
+          "id": "n3",
+          "claim_type": "software.update_years",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 5,
+          "source": "nova-site"
+        },
+        {
+          "id": "n4",
+          "claim_type": "ergonomics.width",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 71.2,
+          "source": "nova-site",
+          "unit": "mm"
+        },
+        {
+          "id": "n5",
+          "claim_type": "ergonomics.weight",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 182,
+          "source": "nova-site",
+          "unit": "g"
+        },
+        {
+          "id": "n6",
+          "claim_type": "warranty.years",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 1,
+          "source": "nova-site"
+        },
+        {
+          "id": "n7",
+          "claim_type": "certification.fcc",
+          "status": "VERIFIED",
+          "value": "FCC ID on record",
+          "source": "fcc"
+        },
+        {
+          "id": "n8",
+          "claim_type": "performance.battery_hours",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 30,
+          "source": "nova-site",
+          "unit": "h"
+        },
+        {
+          "id": "n9",
+          "claim_type": "test.battery_hours",
+          "status": "INDEPENDENTLY_TESTED",
+          "value": 24,
+          "source": "lab-p",
+          "unit": "h"
+        },
+        {
+          "id": "n10",
+          "claim_type": "feature.esim",
+          "status": "MANUFACTURER_REPORTED",
+          "value": true,
+          "source": "nova-site"
+        },
+        {
+          "id": "n11",
+          "claim_type": "feature.wireless_charging",
+          "status": "MANUFACTURER_REPORTED",
+          "value": true,
+          "source": "nova-site"
+        },
+        {
+          "id": "n12",
+          "claim_type": "feature.headphone_jack",
+          "status": "MANUFACTURER_REPORTED",
+          "value": false,
+          "source": "nova-site"
+        }
+      ],
+      "safety": [
+        {
+          "requirement": "us-fcc",
+          "outcome": "pass",
+          "claim": "n7"
+        }
+      ],
+      "reviews": {
+        "source": "nova-reviews",
+        "items": [
+          {
+            "rating": 5,
+            "date": "2026-01-01",
+            "verified": true,
+            "text": "Battery easily lasts a day, owner 0",
+            "aspects": [
+              {
+                "aspect": "battery",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "lasts a day"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-02-02",
+            "verified": true,
+            "text": "Battery easily lasts a day, owner 1",
+            "aspects": [
+              {
+                "aspect": "battery",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "lasts a day"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-03-03",
+            "verified": true,
+            "text": "Battery easily lasts a day, owner 2",
+            "aspects": [
+              {
+                "aspect": "battery",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "lasts a day"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-04-04",
+            "verified": true,
+            "text": "Battery easily lasts a day, owner 3",
+            "aspects": [
+              {
+                "aspect": "battery",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "lasts a day"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-05-05",
+            "verified": true,
+            "text": "Battery easily lasts a day, owner 4",
+            "aspects": [
+              {
+                "aspect": "battery",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "lasts a day"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-06-06",
+            "verified": true,
+            "text": "Battery easily lasts a day, owner 5",
+            "aspects": [
+              {
+                "aspect": "battery",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "lasts a day"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-07-07",
+            "verified": true,
+            "text": "Battery easily lasts a day, owner 6",
+            "aspects": [
+              {
+                "aspect": "battery",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "lasts a day"
+              }
+            ]
+          },
+          {
+            "rating": 5,
+            "date": "2026-08-08",
+            "verified": true,
+            "text": "Battery easily lasts a day, owner 7",
+            "aspects": [
+              {
+                "aspect": "battery",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "lasts a day"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-09-09",
+            "verified": true,
+            "text": "Compact enough for one hand",
+            "aspects": [
+              {
+                "aspect": "size",
+                "category": "comfort",
+                "sentiment": "positive",
+                "quote": "compact"
+              }
+            ]
+          },
+          {
+            "rating": 2,
+            "date": "2026-01-10",
+            "verified": true,
+            "text": "Screen cracked from a short drop",
+            "aspects": [
+              {
+                "aspect": "screen",
+                "category": "durability",
+                "sentiment": "negative",
+                "severity": 3,
+                "quote": "cracked from a short drop"
+              }
+            ]
+          },
+          {
+            "rating": 4,
+            "date": "2026-02-11",
+            "verified": true,
+            "text": "Camera is decent",
+            "aspects": [
+              {
+                "aspect": "camera",
+                "category": "performance",
+                "sentiment": "positive",
+                "quote": "decent"
+              }
+            ]
+          },
+          {
+            "rating": 3,
+            "date": "2026-03-12",
+            "verified": true,
+            "text": "Gets warm when gaming",
+            "aspects": [
+              {
+                "aspect": "heat",
+                "category": "performance",
+                "sentiment": "negative",
+                "severity": 2,
+                "quote": "gets warm"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "zetax",
+      "name": "Zeta X (synthetic)",
+      "brand": "Zeta",
+      "model_number": "ZX-64",
+      "listing": {
+        "marketplace": "Example marketplace",
+        "price": 349,
+        "shipping": 0,
+        "source": "zeta-site",
+        "observed_at": "2026-11-22"
+      },
+      "claims": [
+        {
+          "id": "z1",
+          "claim_type": "material.frame",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "polycarbonate",
+          "source": "zeta-site"
+        },
+        {
+          "id": "z2",
+          "claim_type": "construction.ip_rating",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "IP54",
+          "source": "zeta-site"
+        },
+        {
+          "id": "z3",
+          "claim_type": "software.update_years",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 2,
+          "source": "zeta-site"
+        },
+        {
+          "id": "z4",
+          "claim_type": "ergonomics.width",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 76.5,
+          "source": "zeta-site",
+          "unit": "mm"
+        },
+        {
+          "id": "z5",
+          "claim_type": "ergonomics.weight",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 205,
+          "source": "zeta-site",
+          "unit": "g"
+        },
+        {
+          "id": "z6",
+          "claim_type": "feature.esim",
+          "status": "MANUFACTURER_REPORTED",
+          "value": false,
+          "source": "zeta-site"
+        },
+        {
+          "id": "z7",
+          "claim_type": "feature.headphone_jack",
+          "status": "MANUFACTURER_REPORTED",
+          "value": true,
+          "source": "zeta-site"
+        },
+        {
+          "id": "z8",
+          "claim_type": "certification.fcc",
+          "status": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "id": "orbitpro",
+      "name": "Orbit Pro (synthetic)",
+      "brand": "Orbit",
+      "model_number": "OP-256",
+      "listing": {
+        "marketplace": "Example store",
+        "price": 749,
+        "shipping": 0,
+        "source": "orbit-site",
+        "observed_at": "2026-11-22"
+      },
+      "claims": [
+        {
+          "id": "o1",
+          "claim_type": "material.frame",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "Ti-6Al-4V",
+          "source": "orbit-site"
+        },
+        {
+          "id": "o2",
+          "claim_type": "construction.ip_rating",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "IP68",
+          "source": "orbit-site"
+        },
+        {
+          "id": "o3",
+          "claim_type": "software.update_years",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 7,
+          "source": "orbit-site"
+        },
+        {
+          "id": "o4",
+          "claim_type": "ergonomics.width",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 72.0,
+          "source": "orbit-site",
+          "unit": "mm"
+        },
+        {
+          "id": "o5",
+          "claim_type": "ergonomics.weight",
+          "status": "MANUFACTURER_REPORTED",
+          "value": 199,
+          "source": "orbit-site",
+          "unit": "g"
+        },
+        {
+          "id": "o6",
+          "claim_type": "certification.fcc",
+          "status": "MANUFACTURER_REPORTED",
+          "value": "FCC mark shown on box",
+          "source": "orbit-site",
+          "limitations": [
+            "manufacturer statement only"
+          ]
+        },
+        {
+          "id": "o7",
+          "claim_type": "feature.esim",
+          "status": "MANUFACTURER_REPORTED",
+          "value": true,
+          "source": "orbit-site"
+        },
+        {
+          "id": "o8",
+          "claim_type": "feature.wireless_charging",
+          "status": "MANUFACTURER_REPORTED",
+          "value": true,
+          "source": "orbit-site"
+        }
+      ],
+      "safety": [
+        {
+          "requirement": "us-fcc",
+          "outcome": "pass",
+          "claim": "o6"
+        }
+      ]
+    }
+  ]
+}

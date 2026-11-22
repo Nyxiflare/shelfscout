@@ -50,6 +50,11 @@ def load_profile(name: str, directory: Path | None = None) -> dict:
         for k, v in layer.items():
             if k == "safety_requirements" and isinstance(v, list):
                 merged[k] = merged.get(k, []) + v
+            elif k == "spec_rules" and isinstance(v, dict):
+                rules = {dim: list(items) for dim, items in merged.get(k, {}).items()}
+                for dim, items in v.items():
+                    rules[dim] = rules.get(dim, []) + list(items)
+                merged[k] = rules
             else:
                 merged[k] = v
     merged["id"] = raw.get("id", name)
@@ -83,12 +88,22 @@ def validate_profile(p: dict) -> None:
         for key in ("on_missing", "on_below"):
             if g.get(key) and g[key] not in GATE_OUTCOMES:
                 raise ProfileError(f"Profile '{pid}': gate '{g.get('id')}' {key} must be one of {GATE_OUTCOMES}.")
+    for dim, items in (p.get("spec_rules") or {}).items():
+        if dim not in DIMENSIONS:
+            raise ProfileError(f"Profile '{pid}': spec_rules names an unknown dimension '{dim}'.")
+        for r in items:
+            if r.get("kind", "linear") not in ("linear", "map", "bool") or not r.get("claim"):
+                raise ProfileError(f"Profile '{pid}': a {dim} rule needs a claim and kind linear, map or bool.")
+            if r.get("kind", "linear") == "linear" and ("poor" not in r or "good" not in r):
+                raise ProfileError(f"Profile '{pid}': linear rule for {r['claim']} needs poor and good.")
     ids = [r.get("id") for r in p.get("safety_requirements", [])]
     if len(set(ids)) != len(ids) or any(not i for i in ids):
         raise ProfileError(f"Profile '{pid}': safety requirement ids must be present and unique.")
     for r in p.get("safety_requirements", []):
         if not isinstance(r.get("mandatory"), bool) or not r.get("jurisdiction"):
             raise ProfileError(f"Profile '{pid}': requirement '{r.get('id')}' needs a jurisdiction and mandatory true/false.")
+        if r.get("on_unresolved") and r["on_unresolved"] not in GATE_OUTCOMES:
+            raise ProfileError(f"Profile '{pid}': requirement '{r.get('id')}' on_unresolved must be one of {GATE_OUTCOMES}.")
 
 
 def list_profiles(directory: Path | None = None) -> list:

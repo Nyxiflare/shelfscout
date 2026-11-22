@@ -27,5 +27,86 @@
     }
   ],
   "safety_requirements": [],
-  "requirements_reviewed": "2026-11 from general regulatory knowledge; confirm current rules for the product and country"
+  "requirements_reviewed": "2026-11 from general regulatory knowledge; confirm current rules for the product and country",
+  "spec_rules": {
+    "durability": [
+      {
+        "claim": "warranty.years",
+        "kind": "linear",
+        "poor": 0.5,
+        "good": 5,
+        "label": "warranty length",
+        "basis": "longer warranties cover more of the product's life"
+      },
+      {
+        "claim": "repair.spare_parts_available",
+        "kind": "bool",
+        "true": 100,
+        "false": 30,
+        "label": "spare parts available"
+      },
+      {
+        "claim": "repair.repairability_index",
+        "kind": "linear",
+        "poor": 2,
+        "good": 8,
+        "label": "repairability index (0-10)"
+      }
+    ],
+    "after_sales_service": [
+      {
+        "claim": "warranty.years",
+        "kind": "linear",
+        "poor": 0.5,
+        "good": 3,
+        "label": "warranty cover"
+      },
+      {
+        "claim": "service.network_in_country",
+        "kind": "bool",
+        "true": 90,
+        "false": 25,
+        "label": "service network in your country"
+      },
+      {
+        "claim": "service.typical_repair_days",
+        "kind": "linear",
+        "poor": 21,
+        "good": 3,
+        "label": "typical repair turnaround (days)"
+      }
+    ],
+    "brand_trust": [
+      {
+        "claim": "brand.years_in_market",
+        "kind": "linear",
+        "poor": 1,
+        "good": 15,
+        "label": "years in market"
+      },
+      {
+        "claim": "brand.recalls_last_5_years",
+        "kind": "linear",
+        "poor": 3,
+        "good": 0,
+        "label": "recalls in the last 5 years"
+      },
+      {
+        "claim": "brand.publishes_full_specs",
+        "kind": "bool",
+        "true": 80,
+        "false": 30,
+        "label": "publishes full specifications"
+      }
+    ],
+    "reliability": [
+      {
+        "claim": "test.failure_rate_pct",
+        "kind": "linear",
+        "poor": 20,
+        "good": 1,
+        "label": "independently measured failure rate (%)"
+      }
+    ]
+  }
 }

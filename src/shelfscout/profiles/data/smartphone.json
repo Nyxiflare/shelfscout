@@ -17,5 +17,31 @@
     "price_value": 6
   },
   "ergonomics_model": "smartphone",
-  "material_application": "smartphone_housing"
+  "material_application": "smartphone_housing",
+  "spec_rules": {
+    "materials_build": [
+      {
+        "claim": "construction.ip_rating",
+        "kind": "map",
+        "map": {
+          "ip68": 100,
+          "ip67": 85,
+          "ip65": 60,
+          "ip54": 45,
+          "ip53": 40,
+          "none": 15
+        },
+        "label": "water and dust rating"
+      }
+    ],
+    "durability": [
+      {
+        "claim": "software.update_years",
+        "kind": "linear",
+        "poor": 2,
+        "good": 7,
+        "label": "years of software updates promised"
+      }
+    ]
+  }
 }
