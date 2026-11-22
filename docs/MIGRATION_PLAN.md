@@ -1,6 +1,7 @@
 # ShelfScout V2 migration plan
 
-- **Status:** awaiting approval. No code changes are made until it's approved.
+- **Status:** approved 2026-11-22. Phases 1-7 done in 2.0.0a1 (see CHANGELOG). Phase 8 not started: it needs PostgreSQL/Docker, which aren't installed, and real-user validation first, as the plan says.
+- **Scope notes for 2.0.0a1:** the eval set starts with 12 evidence-labelling cases and 3 synthetic engine examples, not 30 judgement cases. Phase 5 safety requirements cover US, EU, UK and India for electronics, appliances, kitchen and baby products, plus the three demo categories.
 - **Branch:** `feature/shelfscout-v2`. `main` stays as released v1 until V2 passes its release checks.
 
 Each phase ends with: implementation, tests passing, docs updated, limitations written down, and a short report (files changed, test counts, what's left). Nothing is called complete on placeholder code.

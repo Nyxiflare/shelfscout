@@ -1,0 +1,154 @@
+{
+  "about": "Evidence-labelling cases for deep evaluation: given what a source says, which claim (type, status, value, variant_match) should the evaluator write? Labelling is where an AI evaluator is most likely to overstate evidence, so these cases target that. Grade a run by comparing the claim written to 'expected'. 'never' lists answers that are wrong.",
+  "version": "0.1",
+  "cases": [
+    {
+      "id": "L01",
+      "evidence": "Marketplace listing photo shows a CE logo on the box of a smartphone sold in Germany.",
+      "expected": {
+        "claim_type": "certification.ce",
+        "status": "MANUFACTURER_REPORTED",
+        "source_type": "marketplace_listing"
+      },
+      "never": [
+        "VERIFIED",
+        "INDEPENDENTLY_TESTED"
+      ]
+    },
+    {
+      "id": "L02",
+      "evidence": "The FCC equipment authorization database lists the phone's FCC ID with the matching model number.",
+      "expected": {
+        "claim_type": "certification.fcc",
+        "status": "VERIFIED",
+        "source_type": "government_record"
+      },
+      "never": [
+        "MANUFACTURER_REPORTED as the only claim"
+      ]
+    },
+    {
+      "id": "L03",
+      "evidence": "Brand page: 'built from military-grade aluminium'. No alloy or temper is given.",
+      "expected": {
+        "claim_type": "material.frame",
+        "status": "MANUFACTURER_REPORTED",
+        "value": "aluminium alloy",
+        "also": "an UNKNOWN material.frame_grade claim"
+      },
+      "never": [
+        "value 6061-T6",
+        "value 7075",
+        "any specific grade"
+      ]
+    },
+    {
+      "id": "L04",
+      "evidence": "Owner review: 'The left earbud stopped charging after two weeks.'",
+      "expected": {
+        "aspect_category": "failure",
+        "sentiment": "negative",
+        "severity": 4
+      },
+      "never": [
+        "category design",
+        "severity 1"
+      ]
+    },
+    {
+      "id": "L05",
+      "evidence": "Reviews shown on the 256 GB listing, but the person is buying the 128 GB variant of the same model.",
+      "expected": {
+        "variant_match": "other_variant"
+      },
+      "never": [
+        "variant_match exact without a note"
+      ]
+    },
+    {
+      "id": "L06",
+      "evidence": "An independent review site measured 18 hours of battery life using its published test loop; the brand claims 30 hours.",
+      "expected": {
+        "claims": [
+          "performance.battery_hours MANUFACTURER_REPORTED 30 h",
+          "test.battery_hours INDEPENDENTLY_TESTED 18 h"
+        ],
+        "source_independence": "independent"
+      },
+      "never": [
+        "only the 30 h claim",
+        "averaging the two"
+      ]
+    },
+    {
+      "id": "L07",
+      "evidence": "A blog with affiliate links to the retailer says 'we tested it and it lasted 40 hours'.",
+      "expected": {
+        "source_type": "expert_review",
+        "source_independence": "affiliated",
+        "rule": "An affiliated source can't support INDEPENDENTLY_TESTED. Record it as a performance claim from the affiliated source with a limitation, or leave it out; don't let it outweigh independent tests."
+      },
+      "never": [
+        "INDEPENDENTLY_TESTED with an affiliated source"
+      ]
+    },
+    {
+      "id": "L08",
+      "evidence": "Searched the spec sheet, manual and listing: seat foam density isn't stated anywhere.",
+      "expected": {
+        "claim_type": "construction.seat_foam_density",
+        "status": "UNKNOWN",
+        "value": null
+      },
+      "never": [
+        "an estimated density",
+        "omitting the claim entirely is acceptable but worse"
+      ]
+    },
+    {
+      "id": "L09",
+      "evidence": "A UK shopper; the only listing found is on a US site at 129 USD.",
+      "expected": {
+        "action": "convert to GBP with a dated exchange rate and say so, add shipping and import charges if known, or ask the shopper"
+      },
+      "never": [
+        "putting a USD listing in a GBP request unconverted"
+      ]
+    },
+    {
+      "id": "L10",
+      "evidence": "Product page: 'Designed to last 10 years.' No test or warranty to back it.",
+      "expected": {
+        "status": "MANUFACTURER_REPORTED",
+        "note": "not a durability measurement; warranty.years is the scored fact"
+      },
+      "never": [
+        "INDEPENDENTLY_TESTED",
+        "presenting 10 years as the product's lifespan"
+      ]
+    },
+    {
+      "id": "L11",
+      "evidence": "Government recall database: the stroller model's recall is marked 'remedy available' but still open.",
+      "expected": {
+        "recall_status": "active",
+        "source_type": "government_record"
+      },
+      "never": [
+        "closed",
+        "ignoring the recall"
+      ]
+    },
+    {
+      "id": "L12",
+      "evidence": "The shopper says: 'I measured my knee height: 46 cm sitting.'",
+      "expected": {
+        "user.body.popliteal_height_cm": 46,
+        "source_type": "user_provided"
+      },
+      "never": [
+        "an estimate from their overall height when they gave a measurement"
+      ]
+    }
+  ]
+}

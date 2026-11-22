@@ -1,6 +1,8 @@
 # ShelfScout V2 architecture
 
-**Status:** proposal for approval (Phase 0). Nothing here is built yet.
+**Status:** approved 2026-11-22. Phases 1-7 are built in 2.0.0a1. Phase 8 (platform) is not built.
+
+**Deviation from ADR-8:** `compare` keeps its v1 scoring unchanged (no `--legacy-scoring` flag needed). The new evidence-based scoring lives in the separate `evaluate` command, so nothing that relies on `compare` changes.
 
 ## Goal
 

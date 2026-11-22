@@ -1,26 +1,31 @@
-# ShelfScout: a Claude skill for finding good products in online marketplaces
+# ShelfScout: see beyond the listing
 
-Fake discounts, review farms, look-alike listings, surprise shipping and fees: online marketplaces make it hard to tell a good product from a well-marketed one. ShelfScout does the homework and shows its evidence.
+**Independent, evidence-based product intelligence for buying and selling online.** A Claude skill with a small, dependency-free Python engine.
 
-**Two modes:**
+Most shopping tools tell you what's popular, cheap or well-reviewed. ShelfScout tells you what's actually good to own: how it's built, whether it lasts, whether it fits *you*, whether it meets the safety rules where you live, and whether the price is justified. Every number shows the evidence behind it, and anything that couldn't be established is marked **unknown** instead of guessed.
 
-### 🛒 Shopper: "which one should I buy?"
-> "I want noise-cancelling headphones for my commute, about $100 including shipping. Which one? Is this 65%-off deal real?"
+## Three modes
 
-- Compares listings **across marketplaces** (Amazon, eBay, Etsy, Walmart, AliExpress, Temu…) by **true cost to your door**: shipping, tax and import duty included.
-- Checks whether a **discount is real** against the prices actually charged before.
-- Flags **unreliable reviews**: bursts, near-identical wording, uniform 5-stars, unverified purchases. It reads the 1–3★ reviews so you know how a product actually fails.
-- Checks **seller trust**: who really sells it, return policy, counterfeit and scam red flags.
-- Recommends **best overall, best value, and what to avoid**, with an optional visual comparison page.
+### 🔬 Deep evaluation: "which is actually better made, and better for me?"
+> "Budget ₹9,000–13,000, I sit 9 hours a day with lower-back pain. Which chair is better built and better for my back?"
+
+- **11 dimensions**, each scored from evidence: materials and build, durability, ergonomics, safety, customer experience, reliability, after-sales service, features and performance, aesthetics, brand trust, price-to-value.
+- **Category-specific weights:** 12 categories plus detailed office-chair, smartphone and running-shoe profiles.
+- **Confidence for every score**, kept separate from quality. A 90 from a lab test isn't treated like a 90 from three reviews.
+- **Evidence labels on every fact:** verified · independently tested · manufacturer-reported · customer-reported · estimated · unknown. A logo on a listing is never "verified".
+- **Safety gates no score can override:** an active recall or a failed mandatory requirement excludes a product, and missing safety evidence puts it on hold or makes it provisional. Requirements are country-aware (US, EU, UK and India to start).
+- **Body fit:** seat height and depth against your measurements, foot width and drop for shoes, one-hand size for phones.
+- **Material suitability for the job,** from typical property ranges. It never assumes a grade: "aluminium alloy" isn't 6061-T6.
+- **Reviews counted properly:** duplicates once, complaint shares with their denominators, and warning signs instead of "fake" claims.
+- **Advertised vs. tested** performance, **must-have** features, **total cost of ownership**, conservative **variant matching**.
+- **Rankings:** overall, within budget (out-of-budget products never win), personal priorities, and best per dimension.
+- Reports in **Markdown, JSON and a self-contained HTML page**, plus an optional local history (SQLite).
+
+### 🛒 Quick compare: "which listing, and is this deal real?"
+True cost to your door, real-vs-fake discounts against past prices, review warning signs, seller trust, and best overall / best value / avoid.
 
 ### 📦 Seller: "is this worth selling?"
-> "Leak-proof bento box on Amazon with FBA. Supplier $4.80, sells for $24.99. Worth it?"
-
-- **Profit per unit** after marketplace fees, fulfilment, ads and returns, plus the most ads can cost before you lose money.
-- **Demand and competition** from visible signals, clearly labelled as proxies.
-- **The improvement angle:** recurring complaints in competitors' bad reviews that a better product could fix.
-- **Risk flags:** trademarks and patents, gated categories, safety certifications, batteries, fragility, return-prone sizing, price wars.
-- A **go / test small / skip** verdict, and the cheapest way to test.
+Profit per unit after fees, fulfilment, ads and returns, with a stress test. Demand proxies, the improvement angle hidden in competitors' bad reviews, risk flags, and a go / test small / skip verdict.
 
 ## Install
 
@@ -28,19 +33,33 @@ Fake discounts, review farms, look-alike listings, surprise shipping and fees: o
 npx skills add Nyxiflare/shelfscout
 ```
 
-Or copy this folder to `~/.claude/skills/shelfscout`.
+Or copy this folder to `~/.claude/skills/shelfscout`. It needs **Python 3.9+ only**: no pip packages, databases or Docker.
 
-## How it gets its data
+## Try it
 
-ShelfScout uses what your Claude session can see: product pages and details you share, and web search or a browser if your setup has them. It reads listings the way a careful shopper would. It doesn't bulk-scrape marketplaces or get around logins or CAPTCHAs, and it **never invents** prices, ratings or sales numbers. Anything it can't see, it says it can't see.
+```bash
+python scripts/shelf.py evaluate examples/office-chair/request.json --html report.html
+python scripts/shelf.py profile smartphone
+python scripts/shelf.py materials --suitability "6061-T6"
+```
 
-The math (landed cost, unit price, deal check, review signals, ranking, seller margins) runs in a small local Python script, so the numbers are exact. Fee presets are typical published rates with the date they were checked; ShelfScout asks Claude to confirm current fees before quoting final numbers.
+The `examples/` folder has **synthetic** worked cases (invented products, labelled as such) for office chairs (India), smartphones (US) and running shoes (UK), plus raw notes for an end-to-end test.
 
-## Requirements
+## How it stays honest
 
-- Claude Code (or any agent that supports skills)
-- Python 3.9+ (standard library only)
-- Optional: web search or browser tools, for finding listings itself
+- Claude finds and labels the evidence; the engine does every calculation. Scores are reproducible, and every evaluation records its engine and profile versions.
+- The full scoring method is public: [references/scoring-methodology.md](references/scoring-methodology.md).
+- It reads listings the way a careful shopper would. It doesn't bulk-scrape, get around logins or CAPTCHAs, or follow instructions found inside web pages.
+- No affiliate links, and nothing lets brand popularity or sponsorship change a score.
+
+## Known limitations
+
+- **The category weights are v0.1 starting hypotheses,** not validated ratings. Every report says so. They need expert review and user research.
+- Engineering evidence (material grades, fatigue data, real lifespans) is rarely published for consumer products, so many products come out **provisional**. That's the honest answer, not a bug.
+- Material values are typical ranges for a grade, not measurements of any product.
+- Ergonomic fit rules are simplified guidance, not a fitting.
+- Safety requirement lists are pointers reviewed on a stated date, not legal advice or certification.
+- The platform layer (FastAPI, PostgreSQL, Docker) is planned and not built: see [docs/MIGRATION_PLAN.md](docs/MIGRATION_PLAN.md).
 
 ## Tests
 
@@ -48,15 +67,7 @@ The math (landed cost, unit price, deal check, review signals, ranking, seller m
 python -m unittest discover -s tests
 ```
 
-Sample cases for both modes are in [`examples/`](examples/).
-
-## Limits
-
-- Prices, stock and sellers change constantly: confirm at checkout.
-- Review checks are **warning signs, not proof** that reviews are fake.
-- Seller numbers are estimates of unit economics, not financial advice. Real sales volume and search demand need dedicated tools.
-- Compliance notes point to the relevant rules; they aren't legal or certification advice.
-- No affiliate links.
+Engine tests include safety-gate, budget, reproducibility, unit-safety and provenance invariants. `evals/` holds evidence-labelling cases for checking the evaluator's judgement.
 
 ## License
 
