@@ -1,0 +1,29 @@
+{
+  "id": "running_shoes",
+  "version": "0.1",
+  "extends": "clothing_footwear",
+  "name": "Running shoes",
+  "weights": {
+    "materials_build": 10,
+    "durability": 14,
+    "ergonomics": 22,
+    "safety": 6,
+    "customer_experience": 14,
+    "reliability": 6,
+    "after_sales_service": 2,
+    "features_performance": 10,
+    "aesthetics": 6,
+    "brand_trust": 2,
+    "price_value": 8
+  },
+  "ergonomics_model": "running_shoe",
+  "material_application": "shoe_midsole",
+  "safety_requirements": [
+    {
+      "id": "eu-reach",
+      "jurisdiction": "EU",
+      "name": "REACH restricted substances (compliance is rarely verifiable from public information)",
+      "mandatory": true
+    }
+  ]
+}

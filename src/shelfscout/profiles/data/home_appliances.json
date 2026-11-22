@@ -1,0 +1,56 @@
+{
+  "id": "home_appliances",
+  "name": "Home appliances",
+  "version": "0.1",
+  "calibration": "Starting weights from the ShelfScout V2 specification. They are an uncalibrated hypothesis, not validated ratings, and must be calibrated with expert review and user research.",
+  "weights": {
+    "materials_build": 13,
+    "durability": 15,
+    "ergonomics": 6,
+    "safety": 16,
+    "customer_experience": 11,
+    "reliability": 13,
+    "after_sales_service": 10,
+    "features_performance": 7,
+    "aesthetics": 2,
+    "brand_trust": 2,
+    "price_value": 5
+  },
+  "gates": [
+    {
+      "id": "safety-assessed",
+      "dimension": "safety",
+      "on_missing": "SAFETY_HOLD",
+      "min_score": 40,
+      "on_below": "SAFETY_HOLD",
+      "why": "A product can't be recommended outright without a safety assessment."
+    }
+  ],
+  "safety_requirements": [
+    {
+      "id": "us-nrtl",
+      "jurisdiction": "US",
+      "name": "Safety listing by a Nationally Recognized Testing Laboratory (e.g. UL/ETL)",
+      "mandatory": false
+    },
+    {
+      "id": "eu-ce-lvd",
+      "jurisdiction": "EU",
+      "name": "CE marking (Low Voltage and EMC Directives)",
+      "mandatory": true
+    },
+    {
+      "id": "uk-ukca-lvd",
+      "jurisdiction": "GB",
+      "name": "UKCA or CE marking (electrical equipment)",
+      "mandatory": true
+    },
+    {
+      "id": "in-bis",
+      "jurisdiction": "IN",
+      "name": "BIS certification where the appliance is under a Quality Control Order",
+      "mandatory": true
+    }
+  ],
+  "requirements_reviewed": "2026-11 from general regulatory knowledge; confirm current rules for the product and country"
+}

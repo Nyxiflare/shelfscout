@@ -1,0 +1,31 @@
+{
+  "id": "building_materials",
+  "name": "Building materials",
+  "version": "0.1",
+  "calibration": "Starting weights from the ShelfScout V2 specification. They are an uncalibrated hypothesis, not validated ratings, and must be calibrated with expert review and user research.",
+  "weights": {
+    "materials_build": 18,
+    "durability": 16,
+    "ergonomics": 5,
+    "safety": 18,
+    "customer_experience": 8,
+    "reliability": 12,
+    "after_sales_service": 5,
+    "features_performance": 7,
+    "aesthetics": 2,
+    "brand_trust": 2,
+    "price_value": 7
+  },
+  "gates": [
+    {
+      "id": "safety-assessed",
+      "dimension": "safety",
+      "on_missing": "PROVISIONAL",
+      "min_score": 40,
+      "on_below": "SAFETY_HOLD",
+      "why": "A product can't be recommended outright without a safety assessment."
+    }
+  ],
+  "safety_requirements": [],
+  "requirements_reviewed": "2026-11 from general regulatory knowledge; confirm current rules for the product and country"
+}

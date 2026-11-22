@@ -1,0 +1,44 @@
+{
+  "id": "kitchen_cookware",
+  "name": "Kitchen & cookware",
+  "version": "0.1",
+  "calibration": "Starting weights from the ShelfScout V2 specification. They are an uncalibrated hypothesis, not validated ratings, and must be calibrated with expert review and user research.",
+  "weights": {
+    "materials_build": 15,
+    "durability": 13,
+    "ergonomics": 10,
+    "safety": 14,
+    "customer_experience": 10,
+    "reliability": 11,
+    "after_sales_service": 6,
+    "features_performance": 8,
+    "aesthetics": 5,
+    "brand_trust": 2,
+    "price_value": 6
+  },
+  "gates": [
+    {
+      "id": "safety-assessed",
+      "dimension": "safety",
+      "on_missing": "SAFETY_HOLD",
+      "min_score": 40,
+      "on_below": "SAFETY_HOLD",
+      "why": "A product can't be recommended outright without a safety assessment."
+    }
+  ],
+  "safety_requirements": [
+    {
+      "id": "us-fda-fcm",
+      "jurisdiction": "US",
+      "name": "Food-contact materials suitable under FDA rules",
+      "mandatory": true
+    },
+    {
+      "id": "eu-fcm",
+      "jurisdiction": "EU",
+      "name": "Food-contact materials compliant with Regulation (EC) 1935/2004",
+      "mandatory": true
+    }
+  ],
+  "requirements_reviewed": "2026-11 from general regulatory knowledge; confirm current rules for the product and country"
+}

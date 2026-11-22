@@ -1,0 +1,21 @@
+{
+  "id": "smartphone",
+  "version": "0.1",
+  "extends": "electronics",
+  "name": "Smartphone",
+  "weights": {
+    "materials_build": 8,
+    "durability": 10,
+    "ergonomics": 6,
+    "safety": 10,
+    "customer_experience": 12,
+    "reliability": 13,
+    "after_sales_service": 9,
+    "features_performance": 18,
+    "aesthetics": 5,
+    "brand_trust": 3,
+    "price_value": 6
+  },
+  "ergonomics_model": "smartphone",
+  "material_application": "smartphone_housing"
+}

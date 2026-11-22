@@ -1,0 +1,44 @@
+{
+  "id": "baby_children",
+  "name": "Baby & children's products",
+  "version": "0.1",
+  "calibration": "Starting weights from the ShelfScout V2 specification. They are an uncalibrated hypothesis, not validated ratings, and must be calibrated with expert review and user research.",
+  "weights": {
+    "materials_build": 12,
+    "durability": 12,
+    "ergonomics": 10,
+    "safety": 25,
+    "customer_experience": 10,
+    "reliability": 10,
+    "after_sales_service": 5,
+    "features_performance": 5,
+    "aesthetics": 3,
+    "brand_trust": 3,
+    "price_value": 5
+  },
+  "gates": [
+    {
+      "id": "safety-assessed",
+      "dimension": "safety",
+      "on_missing": "SAFETY_HOLD",
+      "min_score": 40,
+      "on_below": "SAFETY_HOLD",
+      "why": "A product can't be recommended outright without a safety assessment."
+    }
+  ],
+  "safety_requirements": [
+    {
+      "id": "us-cpc",
+      "jurisdiction": "US",
+      "name": "Children's Product Certificate based on third-party testing (CPSIA)",
+      "mandatory": true
+    },
+    {
+      "id": "eu-gpsr",
+      "jurisdiction": "EU",
+      "name": "General Product Safety Regulation, plus product-specific EU rules (e.g. EN 71 for toys)",
+      "mandatory": true
+    }
+  ],
+  "requirements_reviewed": "2026-11 from general regulatory knowledge; confirm current rules for the product and country"
+}

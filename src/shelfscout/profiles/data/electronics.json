@@ -1,0 +1,62 @@
+{
+  "id": "electronics",
+  "name": "Electronics",
+  "version": "0.1",
+  "calibration": "Starting weights from the ShelfScout V2 specification. They are an uncalibrated hypothesis, not validated ratings, and must be calibrated with expert review and user research.",
+  "weights": {
+    "materials_build": 12,
+    "durability": 13,
+    "ergonomics": 8,
+    "safety": 14,
+    "customer_experience": 12,
+    "reliability": 12,
+    "after_sales_service": 8,
+    "features_performance": 12,
+    "aesthetics": 3,
+    "brand_trust": 2,
+    "price_value": 4
+  },
+  "gates": [
+    {
+      "id": "safety-assessed",
+      "dimension": "safety",
+      "on_missing": "SAFETY_HOLD",
+      "min_score": 40,
+      "on_below": "SAFETY_HOLD",
+      "why": "A product can't be recommended outright without a safety assessment."
+    }
+  ],
+  "safety_requirements": [
+    {
+      "id": "us-fcc",
+      "jurisdiction": "US",
+      "name": "FCC equipment authorization (radio and digital devices)",
+      "mandatory": true
+    },
+    {
+      "id": "eu-ce-red",
+      "jurisdiction": "EU",
+      "name": "CE marking under the Radio Equipment Directive (radio devices)",
+      "mandatory": true
+    },
+    {
+      "id": "uk-ukca",
+      "jurisdiction": "GB",
+      "name": "UKCA or CE marking (radio and electrical equipment)",
+      "mandatory": true
+    },
+    {
+      "id": "in-bis-crs",
+      "jurisdiction": "IN",
+      "name": "BIS registration under the Compulsory Registration Scheme (listed electronics)",
+      "mandatory": true
+    },
+    {
+      "id": "all-un383",
+      "jurisdiction": "ALL",
+      "name": "UN 38.3 transport testing for lithium batteries",
+      "mandatory": true
+    }
+  ],
+  "requirements_reviewed": "2026-11 from general regulatory knowledge; confirm current rules for the product and country"
+}

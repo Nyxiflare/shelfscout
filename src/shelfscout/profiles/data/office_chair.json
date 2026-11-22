@@ -1,0 +1,35 @@
+{
+  "id": "office_chair",
+  "version": "0.1",
+  "extends": "furniture",
+  "name": "Office chair",
+  "weights": {
+    "materials_build": 16,
+    "durability": 15,
+    "ergonomics": 22,
+    "safety": 8,
+    "customer_experience": 10,
+    "reliability": 8,
+    "after_sales_service": 6,
+    "features_performance": 4,
+    "aesthetics": 5,
+    "brand_trust": 2,
+    "price_value": 4
+  },
+  "ergonomics_model": "office_chair",
+  "material_application": "office_chair_frame",
+  "safety_requirements": [
+    {
+      "id": "us-bifma-x51",
+      "jurisdiction": "US",
+      "name": "ANSI/BIFMA X5.1 office chair tests (voluntary industry standard)",
+      "mandatory": false
+    },
+    {
+      "id": "eu-en1335",
+      "jurisdiction": "EU",
+      "name": "EN 1335 office work chair requirements (voluntary standard)",
+      "mandatory": false
+    }
+  ]
+}

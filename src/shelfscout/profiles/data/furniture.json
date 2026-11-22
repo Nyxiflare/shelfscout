@@ -1,0 +1,31 @@
+{
+  "id": "furniture",
+  "name": "Furniture",
+  "version": "0.1",
+  "calibration": "Starting weights from the ShelfScout V2 specification. They are an uncalibrated hypothesis, not validated ratings, and must be calibrated with expert review and user research.",
+  "weights": {
+    "materials_build": 17,
+    "durability": 15,
+    "ergonomics": 16,
+    "safety": 10,
+    "customer_experience": 10,
+    "reliability": 9,
+    "after_sales_service": 6,
+    "features_performance": 5,
+    "aesthetics": 6,
+    "brand_trust": 2,
+    "price_value": 4
+  },
+  "gates": [
+    {
+      "id": "safety-assessed",
+      "dimension": "safety",
+      "on_missing": "PROVISIONAL",
+      "min_score": 40,
+      "on_below": "SAFETY_HOLD",
+      "why": "A product can't be recommended outright without a safety assessment."
+    }
+  ],
+  "safety_requirements": [],
+  "requirements_reviewed": "2026-11 from general regulatory knowledge; confirm current rules for the product and country"
+}
