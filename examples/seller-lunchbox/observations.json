@@ -1,0 +1,36 @@
+{
+  "note": "What the user saw on Amazon on 2026-11-22",
+  "top_listings": [
+    {
+      "title": "Big brand bento box",
+      "price": 26.99,
+      "reviews": 41000,
+      "bought_past_month": "10K+"
+    },
+    {
+      "title": "Generic bento 1",
+      "price": 22.99,
+      "reviews": 8200,
+      "bought_past_month": "2K+"
+    },
+    {
+      "title": "Generic bento 2",
+      "price": 19.99,
+      "reviews": 3100,
+      "bought_past_month": "1K+"
+    },
+    {
+      "title": "Generic bento 3",
+      "price": 24.99,
+      "reviews": 950,
+      "bought_past_month": "500+"
+    }
+  ],
+  "similar_listings_count": "about 60 on the first 3 pages",
+  "common_complaints_in_1_2_star_reviews": [
+    "lid seal leaks soup or sauce (about 1 in 4 of the negative reviews)",
+    "lid latch cracks after a few weeks",
+    "smells like plastic",
+    "not microwave safe despite the listing"
+  ]
+}

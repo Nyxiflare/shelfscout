@@ -1,0 +1,67 @@
+{
+  "note": "What the user pasted from the listing pages on 2026-11-22",
+  "listings": [
+    {
+      "name": "Sonora Q30 ANC headphones",
+      "marketplace": "Amazon",
+      "seller": "Sonora Official Store (sold by brand, fulfilled by Amazon)",
+      "price": 79.99,
+      "was_price": 129.99,
+      "shipping": 0,
+      "rating": 4.5,
+      "review_count": 18200,
+      "seller_rating_pct": 98,
+      "returns_days": 30,
+      "battery_hours": 40,
+      "anc": true,
+      "weight_g": 260,
+      "delivery_days": 2
+    },
+    {
+      "name": "Zentrik X9 ANC headphones",
+      "marketplace": "Amazon",
+      "seller": "ZK-Direct (third party, ships from China)",
+      "price": 34.99,
+      "was_price": 99.99,
+      "shipping": 0,
+      "rating": 4.8,
+      "review_count": 640,
+      "seller_rating_pct": 86,
+      "returns_days": 30,
+      "battery_hours": 120,
+      "anc": true,
+      "weight_g": 210,
+      "delivery_days": 12
+    },
+    {
+      "name": "Sonora Q30 (open box)",
+      "marketplace": "eBay",
+      "seller": "techrecycle_usa (99.4% positive, 22K feedback)",
+      "price": 54.0,
+      "shipping": 6.5,
+      "rating": null,
+      "review_count": 0,
+      "seller_rating_pct": 99.4,
+      "returns_days": 30,
+      "battery_hours": 40,
+      "anc": true,
+      "weight_g": 260,
+      "delivery_days": 4
+    },
+    {
+      "name": "Aurel Studio 5",
+      "marketplace": "Walmart",
+      "seller": "Sold and shipped by Walmart",
+      "price": 119.0,
+      "shipping": 0,
+      "rating": 4.7,
+      "review_count": 5100,
+      "seller_rating_pct": null,
+      "returns_days": 30,
+      "battery_hours": 30,
+      "anc": true,
+      "weight_g": 250,
+      "delivery_days": 3
+    }
+  ]
+}
